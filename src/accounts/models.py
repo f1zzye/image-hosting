@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -41,20 +41,20 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
-    tariff_plan = models.ForeignKey(
-        "billing.TariffPlan",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="users",
-        verbose_name=_("tariff plan"),
-    )
+    # tariff_plan = models.ForeignKey(
+    #     "billing.TariffPlan",
+    #     on_delete=models.SET_NULL,
+    #     null=True,
+    #     blank=True,
+    #     related_name="users",
+    #     verbose_name=_("tariff plan"),
+    # )
 
     objects = CustomUserManager()
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     class Meta:
         verbose_name = _("User")

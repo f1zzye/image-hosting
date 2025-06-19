@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Custom apps
     # My apps
-    "core" "accounts",
+    "core",
+    "accounts",
     "billing",
     "images",
 ]
