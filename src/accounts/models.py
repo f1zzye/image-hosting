@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils import timezone
 
 from django.db import models
@@ -5,9 +6,16 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
+from .validators import validate_birth_date
 from faker import Faker
 
 from .managers import CustomUserManager
+
+GENDER_CHOICES = (
+    ("Undefined", "Undefined"),
+    ("Male", "Male"),
+    ("Female", "Female"),
+)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -54,12 +62,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ["username"]
 
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")
-        ordering = ("first_name", "last_name")
+        ordering = ["-date_joined"]
         indexes = [
             models.Index(fields=["email"]),
             models.Index(fields=["username"]),
@@ -79,3 +87,27 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_online_time(self) -> str:
         return f"Time online: {timezone.now() - self.date_joined}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    avatar = models.ImageField(
+        _("avatar"),
+        upload_to="avatars/",
+        default="avatars/default-avatar.jpg",
+        blank=True,
+        null=True,
+    )
+    gender = models.CharField(
+        choices=GENDER_CHOICES, max_length=10, default="Undefined"
+    )
+    birth_date = models.DateField(
+        _("birth date"), validators=[validate_birth_date], blank=True, null=True
+    )
+
+    def __str__(self):
+        return f"{self.user}"
+
+    class Meta:
+        verbose_name = "User Profile"
+        verbose_name_plural = "User Profiles"
