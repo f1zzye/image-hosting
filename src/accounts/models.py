@@ -49,15 +49,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
-    # tariff_plan = models.ForeignKey(
-    #     "billing.TariffPlan",
-    #     on_delete=models.SET_NULL,
-    #     null=True,
-    #     blank=True,
-    #     related_name="users",
-    #     verbose_name=_("tariff plan"),
-    # )
-
     objects = CustomUserManager()
 
     EMAIL_FIELD = "email"
