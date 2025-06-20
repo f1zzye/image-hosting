@@ -1,0 +1,44 @@
+[
+  {
+    "model": "billing.tariffplan",
+    "pk": 1,
+    "fields": {
+      "title": "Basic",
+      "description": "Perfect for personal use and small projects. Get access to compressed 200px thumbnails for quick previews and basic image sharing. Ideal for bloggers, social media, and casual photography enthusiasts.",
+      "price": "0.00",
+      "is_built_in": true,
+      "has_thumbnail_200px": true,
+      "has_thumbnail_400px": false,
+      "has_original_photo": false,
+      "has_binary_link": false
+    }
+  },
+  {
+    "model": "billing.tariffplan",
+    "pk": 2,
+    "fields": {
+      "title": "Premium",
+      "description": "Designed for content creators and small businesses. Access both 200px and 400px high-quality thumbnails plus original photo downloads. Perfect for portfolios, e-commerce product images, and professional presentations.",
+      "price": "24.99",
+      "is_built_in": true,
+      "has_thumbnail_200px": true,
+      "has_thumbnail_400px": true,
+      "has_original_photo": true,
+      "has_binary_link": false
+    }
+  },
+  {
+    "model": "billing.tariffplan",
+    "pk": 3,
+    "fields": {
+      "title": "Enterprise",
+      "description": "Ultimate solution for agencies, large businesses, and power users. Full access to all thumbnail sizes, original high-resolution photos, and secure temporary download links for client sharing. Includes advanced features for professional workflows.",
+      "price": "39.99",
+      "is_built_in": true,
+      "has_thumbnail_200px": true,
+      "has_thumbnail_400px": true,
+      "has_original_photo": true,
+      "has_binary_link": true
+    }
+  }
+]

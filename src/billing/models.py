@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TariffPlan(models.Model):
-    name = models.CharField(
+    title = models.CharField(
         _("name"),
         max_length=50,
         unique=True,
@@ -24,7 +24,7 @@ class TariffPlan(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(0.00)],
         default=0.00,
-        help_text=_("Subscription price"),
+        help_text=_("Tariff price"),
     )
     is_built_in = models.BooleanField(
         _("is built-in"),
@@ -55,15 +55,15 @@ class TariffPlan(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=["price"]),
-            models.Index(fields=["name"]),
+            models.Index(fields=["title"]),
             models.Index(fields=["is_built_in"]),
         ]
         verbose_name = _("Tariff Plan")
         verbose_name_plural = _("Tariff Plans")
-        ordering = ["price", "name"]
+        ordering = ["price", "title"]
 
     def __str__(self):
-        return self.name
+        return self.title
 
     def get_available_thumbnail_sizes(self):
         sizes = []
@@ -74,22 +74,22 @@ class TariffPlan(models.Model):
         return sizes
 
 
-class UserSubscription(models.Model):
+class UserTariff(models.Model):
     user = models.OneToOneField(
         get_user_model(),
         on_delete=models.CASCADE,
-        related_name="subscription",
+        related_name="tariff",
         verbose_name=_("user"),
     )
     plan = models.ForeignKey(
         TariffPlan,
         on_delete=models.PROTECT,
         related_name="users",
-        verbose_name=_("subscription plan"),
+        verbose_name=_("tariff plan"),
     )
 
     is_active = models.BooleanField(
-        _("is active"), default=True, help_text=_("Is the subscription active")
+        _("is active"), default=True, help_text=_("Is the tariff active")
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
