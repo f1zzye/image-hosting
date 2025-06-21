@@ -105,12 +105,12 @@ class UserTariff(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user.get_full_name()} - {self.plan.name}"
+        return f"{self.user.get_full_name()} - {self.plan.title}"
 
     @property
     def subscriber_name(self):
         return self.user.get_full_name()
 
     @property
-    def subscription_plan_name(self):
-        return self.plan.name
+    def subscription_plan_title(self):
+        return self.plan.title
