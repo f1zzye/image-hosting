@@ -13,47 +13,88 @@
 {% block footer %}{% endblock %}
 
 {% block content %}
-<a href="{% url 'core:index' %}" class="back-home">← Back to Home</a>
+<a href="{% url 'core:index' %}" class="back-home">
+    <svg viewBox="0 0 24 24" class="back-icon">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2z"/>
+    </svg>
+    <span class="back-text">Back to Home</span>
+</a>
 
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M14,6L10.25,11L13.1,14.8L11.5,16C9.81,13.75 7,10 7,10L1,18H23L14,6Z"/>
+                </svg>
+            </div>
             <h1>PhotoHub</h1>
             <p>Join thousands of photographers worldwide</p>
         </div>
 
-        <form id="signupForm">
+        <form id="signupForm" class="auth-form">
             <div class="form-row">
                 <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required>
+                    <label for="firstName">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                        </svg>
+                        First Name
+                    </label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="John">
                 </div>
                 <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required>
+                    <label for="lastName">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                        </svg>
+                        Last Name
+                    </label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Doe">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
+                <label for="email">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
+                    </svg>
+                    Email Address
+                </label>
+                <input type="email" id="email" name="email" required placeholder="john@example.com">
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label for="password">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                    </svg>
+                    Password
+                </label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
             </div>
 
             <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <label for="confirmPassword">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                    </svg>
+                    Confirm Password
+                </label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="••••••••">
             </div>
 
-            <button type="submit" class="auth-btn">Create Account</button>
+            <button type="submit" class="auth-btn">
+                <span>Create Account</span>
+                <svg viewBox="0 0 24 24">
+                    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+                </svg>
+            </button>
         </form>
 
         <div class="terms">
-            By creating an account, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            By creating an account, you agree to our
+            <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
         </div>
 
         <div class="divider">
@@ -61,7 +102,8 @@
         </div>
 
         <div class="auth-link">
-            Already have an account? <a href="">Sign in here</a>
+            Already have an account?
+            <a href="">Sign in here</a>
         </div>
     </div>
 </div>
