@@ -1,0 +1,81 @@
+{%  extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<body>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container">
+                <h1>Store & Share Your Photos</h1>
+                <p>Professional photo hosting with unlimited storage, fast delivery, and secure sharing</p>
+                <a href="#upload" class="cta-button">Start Uploading</a>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">Why Choose PhotoHub?</h2>
+                <p class="section-subtitle">Everything you need for professional photo management</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div>
+                        <h3>Secure Storage</h3>
+                        <p>Your photos are protected with enterprise-grade encryption and multiple backup systems.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
+                            </svg>
+                        </div>
+                        <h3>Lightning Fast</h3>
+                        <p>Global CDN ensures your photos load instantly anywhere in the world.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.50-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" />
+                            </svg>
+                        </div>
+                        <h3>Easy Sharing</h3>
+                        <p>Share your photos with custom links, galleries, and privacy controls.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="upload-section" id="upload">
+            <div class="container">
+                <h2 class="section-title">Share Your Masterpiece</h2>
+                <p class="section-subtitle">Upload your photos and share them with the world</p>
+
+                <div class="upload-area" onclick="triggerFileInput()">
+                    <div class="upload-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                        </svg>
+                    </div>
+                    <h3>Drop your photos here</h3>
+                    <div class="format-tags">
+                        <span class="format-tag">JPG</span>
+                        <span class="format-tag">JPEG</span>
+                        <span class="format-tag">PNG</span>
+                    </div>
+                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+{% endblock %}
