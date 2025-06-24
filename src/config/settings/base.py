@@ -45,11 +45,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-AUTHENTICATION_BACKENDS = [
-    "accounts.auth_backend.EmailBackend",
-    "django.contrib.auth.backends.ModelBackend",
-]
-
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -146,5 +141,6 @@ AUTH_USER_MODEL = "accounts.User"
 LOGIN_URL = "accounts:sign-in"
 
 LOGIN_REDIRECT_URL = "core:index"
+LOGOUT_REDIRECT_URL = "core:index"
 
 SESSION_COOKIE_AGE = 86400
