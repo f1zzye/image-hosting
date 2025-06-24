@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from accounts.forms import UserRegisterForm
 from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.views.generic import CreateView
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+
+from accounts.forms import UserRegisterForm
+
+from common.mixins import TitleMixin
+
 
 User = get_user_model()
 
@@ -12,7 +20,7 @@ def register_view(request):
         if form.is_valid():
             new_user = form.save(commit=False)
             # new_user.is_active = False  # Отключаем проверку активности
-            new_user.is_active = True     # Аккаунт сразу активен
+            new_user.is_active = True  # Аккаунт сразу активен
             new_user.save()
 
             username = form.cleaned_data.get("username")
@@ -59,3 +67,9 @@ def login_view(request):
             messages.warning(request, f"User with email {email} does not exist.")
 
     return render(request, "accounts/sign-in.html")
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You are logged out.")
+    return redirect("core:index")

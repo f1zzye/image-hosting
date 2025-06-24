@@ -10,6 +10,9 @@
     <meta name="description" content="Secure, fast, and reliable photo hosting platform for professionals and enthusiasts" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flash-messages.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -46,18 +49,25 @@
                                 </svg>
                                 Profile
                             </a>
-                            <a href="">
+                            {% if request.user.is_authenticated %}
+                            <!-- ✅ Скрытая форма для logout -->
+                            <form id="logout-form-desktop" action="{% url 'accounts:sign-out' %}" method="POST" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                            <a href="#" onclick="document.getElementById('logout-form-desktop').submit(); return false;">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M13,17L14.4,15.6L11.8,13H20V11H11.8L14.4,8.4L13,7L8,12L13,17Z M4,5H12V3H4C2.9,3 2,3.9 2,5V19C0,20.1 2.9,21 4,21H12V19H4V5Z" />
+                                </svg>
+                                Sign Out
+                            </a>
+                            {% else %}
+                            <a href="{% url 'accounts:sign-in' %}">
                                 <svg viewBox="0 0 24 24">
                                     <path d="M11,7L9.6,8.4l2.6,2.6H2v2h10.2l-2.6,2.6L11,17l5-5L11,7z M20,19h-8v2h8c1.1,0,2-0.9,2-2V5c0-1.1-0.9-2-2-2h-8v2h8V19z" />
                                 </svg>
                                 Sign In
                             </a>
-                            <a href="{% url 'accounts:sign-up' %}">
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M13,17L14.4,15.6L11.8,13H20V11H11.8L14.4,8.4L13,7L8,12L13,17Z M4,5H12V3H4C2.9,3 2,3.9 2,5V19C0,20.1 2.9,21 4,21H12V19H4V5Z" />
-                                </svg>
-                                Sign Up
-                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </li>
@@ -103,18 +113,25 @@
                     </ul>
 
                     <div class="mobile-auth-buttons">
-                        <a href="" class="mobile-auth-btn signin">
+                        {% if request.user.is_authenticated %}
+                        <!-- ✅ Скрытая форма для mobile logout -->
+                        <form id="logout-form-mobile" action="{% url 'accounts:sign-out' %}" method="POST" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                        <a href="#" class="mobile-auth-btn signup" onclick="document.getElementById('logout-form-mobile').submit(); return false;">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M13,17L14.4,15.6L11.8,13H20V11H11.8L14.4,8.4L13,7L8,12L13,17Z M4,5H12V3H4C2.9,3 2,3.9 2,5V19C0,20.1 2.9,21 4,21H12V19H4V5Z" />
+                            </svg>
+                            Sign Out
+                        </a>
+                        {% else %}
+                        <a href="{% url 'accounts:sign-in' %}" class="mobile-auth-btn signin">
                             <svg viewBox="0 0 24 24">
                                 <path d="M11,7L9.6,8.4l2.6,2.6H2v2h10.2l-2.6,2.6L11,17l5-5L11,7z M20,19h-8v2h8c1.1,0,2-0.9,2-2V5c0-1.1-0.9-2-2-2h-8v2h8V19z" />
                             </svg>
                             Sign In
                         </a>
-                        <a href="{% url 'accounts:sign-up' %}" class="mobile-auth-btn signup">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M13,17L14.4,15.6L11.8,13H20V11H11.8L14.4,8.4L13,7L8,12L13,17Z M4,5H12V3H4C2.9,3 2,3.9 2,5V19C0,20.1 2.9,21 4,21H12V19H4V5Z" />
-                            </svg>
-                            Sign Up
-                        </a>
+                        {% endif %}
                     </div>
 
                     <div class="mobile-nav-footer">
@@ -129,6 +146,33 @@
     </header>
     {% endblock %}
 
+    <!-- Flash Messages -->
+    {% if messages %}
+        <div class="flash-messages-container">
+            {% for message in messages %}
+                <div class="flash-message flash-{{ message.tags }}">
+                    <div class="flash-icon">
+                        {% if message.tags == 'success' %}
+                            <i class="fas fa-check-circle"></i>
+                        {% elif message.tags == 'error' %}
+                            <i class="fas fa-times-circle"></i>
+                        {% elif message.tags == 'warning' %}
+                            <i class="fas fa-exclamation-circle"></i>
+                        {% elif message.tags == 'info' %}
+                            <i class="fas fa-info-circle"></i>
+                        {% else %}
+                            <i class="fas fa-bell"></i>
+                        {% endif %}
+                    </div>
+                    <span class="flash-text">{{ message }}</span>
+                    <button class="flash-close" onclick="closeFlashMessage(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     {% block content %}{% endblock %}
 
     {% block footer %}
@@ -139,32 +183,9 @@
     </footer>
     {% endblock %}
 
+    <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/flash-messages.js' %}"></script>
     <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('profileDropdown');
-            dropdown.classList.toggle('active');
-        }
-
-        function toggleMobileMenu() {
-            const mobileNav = document.getElementById('mobileNav');
-            const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-            const body = document.body;
-
-            mobileNav.classList.toggle('active');
-            mobileNavOverlay.classList.toggle('active');
-            body.classList.toggle('mobile-menu-open');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profileDropdown');
-            const profileIcon = document.querySelector('.profile-icon');
-
-            if (profileIcon && !profileIcon.contains(event.target)) {
-                dropdown.classList.remove('active');
-            }
-        });
-
         function triggerFileInput() {
             document.getElementById('fileInput').click();
         }
@@ -188,19 +209,6 @@
                     });
                 }
             });
-        });
-
-        // Close mobile menu on window resize
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                const mobileNav = document.getElementById('mobileNav');
-                const mobileNavOverlay = document.getElementById('mobileNavOverlay');
-                const body = document.body;
-
-                mobileNav.classList.remove('active');
-                mobileNavOverlay.classList.remove('active');
-                body.classList.remove('mobile-menu-open');
-            }
         });
     </script>
 
