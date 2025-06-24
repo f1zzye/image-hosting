@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from accounts.forms import UserRegisterForm
+from django.contrib.auth import authenticate, get_user_model, login, logout
+
+User = get_user_model()
 
 
 def register_view(request):
@@ -25,3 +28,34 @@ def register_view(request):
         "form": form,
     }
     return render(request, "accounts/sign-up.html", context)
+
+
+def login_view(request):
+    # if request.user.is_authenticated:
+    #     messages.warning(request, f"You are already logged in.")
+    #     return redirect("core:index")
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        try:
+            # user = User.objects.get(email=email)
+            # if not user.is_active:
+            #     messages.warning(
+            #         request, "Please confirm your email to activate your account."
+            #     )
+            #     return render(request, "userauths/sign-in.html")
+
+            user = authenticate(request, email=email, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, f"Welcome, {user.username}")
+                return redirect("core:index")
+            else:
+                messages.error(request, "The password is incorrect. Please try again.")
+        except User.DoesNotExist:
+            messages.warning(request, f"User with email {email} does not exist.")
+
+    return render(request, "accounts/sign-in.html")

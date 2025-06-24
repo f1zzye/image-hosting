@@ -1,7 +1,7 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 
-{% block title %}Sign Up - PhotoHub{% endblock %}
+{% block title %}Sign In - PhotoHub{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/accounts/auth.css' %}">
@@ -27,17 +27,20 @@
 <div class="auth-container">
     <div class="auth-card">
         <div class="auth-header">
-            <h1>Create an Account</h1>
+            <h1>Sign In to Your Account</h1>
+            <p class="auth-subtitle">Welcome back! Please enter your details.</p>
         </div>
 
-        <form method="post" id="signupForm" class="auth-form">
+        <form method="post" id="signinForm" class="auth-form">
             {% csrf_token %}
+
+            <!-- Social Login Buttons -->
             <div class="social-buttons">
                 <button type="button" class="social-btn apple-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                         <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.13997 6.91 8.81997 6.88C10.1 6.85 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" fill="currentColor"/>
                     </svg>
-                    Sign Up with Apple
+                    Sign In with Apple
                 </button>
 
                 <button type="button" class="social-btn google-btn">
@@ -47,44 +50,16 @@
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
                         <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                     </svg>
-                    Sign Up with Google
+                    Sign In with Google
                 </button>
             </div>
 
-            <!-- Terms Checkbox -->
-            <div class="terms-checkbox">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="termsAccepted" name="termsAccepted" required
-                           {% if request.POST.termsAccepted %}checked{% endif %}>
-                    <span class="checkmark">
-                        <svg viewBox="0 0 24 24" class="check-icon">
-                            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                        </svg>
-                    </span>
-                    <span class="checkbox-text">
-                        You must agree to our
-                        <a href="#" target="_blank">Terms of Use</a>,
-                        <a href="#" target="_blank">Privacy Policy</a> and
-                        <a href="#" target="_blank">Biometric Information Privacy Policy</a>
-                    </span>
-                </label>
+            <!-- Divider -->
+            <div class="divider">
+                <span class="divider-text">or continue with email</span>
             </div>
 
             <!-- Form Fields -->
-            <div class="form-group">
-                <label for="username" class="form-label">Username</label>
-                <div class="input-wrapper">
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        required
-                        placeholder="Enter your username"
-                        value="{{ form.username.value|default_if_none:'' }}"
-                    >
-                </div>
-            </div>
-
             <div class="form-group">
                 <label for="email" class="form-label">Email</label>
                 <div class="input-wrapper">
@@ -94,7 +69,7 @@
                         name="email"
                         required
                         placeholder="name@gmail.com"
-                        value="{{ form.email.value|default_if_none:'' }}"
+                        value="{{ request.POST.email|default:'' }}"
                     >
                 </div>
             </div>
@@ -105,10 +80,10 @@
                     <input
                         type="password"
                         id="password"
-                        name="password1"
+                        name="password"
                         required
-                        placeholder=""
-                        value="{{ form.password1.value|default_if_none:'' }}"
+                        placeholder="Enter your password"
+                        value=""
                     >
                     <button type="button" class="password-toggle" onclick="togglePassword('password')">
                         <svg class="eye-icon" viewBox="0 0 24 24">
@@ -118,53 +93,37 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <div class="input-wrapper password-wrapper">
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="password2"
-                        required
-                        placeholder=""
-                        value="{{ form.password2.value|default_if_none:'' }}"
-                    >
-                    <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword')">
-                        <svg class="eye-icon" viewBox="0 0 24 24">
-                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/>
-                        </svg>
-                    </button>
+            <!-- Remember Me & Forgot Password -->
+            <div class="form-options">
+                <div class="remember-me">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span class="checkmark">
+                            <svg viewBox="0 0 24 24" class="check-icon">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        </span>
+                        <span class="checkbox-text">Remember me</span>
+                    </label>
                 </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
             </div>
 
-            {% if form.errors %}
+            {% if messages %}
                 <div class="form-errors">
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <div class="error-item">
-                                <svg class="error-icon" viewBox="0 0 24 24">
-                                    <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
-                                </svg>
-                                <span class="error-text">
-                                    <strong>{{ field.label }}:</strong> {{ error|escape }}
-                                </span>
-                            </div>
-                        {% endfor %}
-                    {% endfor %}
-
-                    {% for error in form.non_field_errors %}
+                    {% for message in messages %}
                         <div class="error-item">
                             <svg class="error-icon" viewBox="0 0 24 24">
                                 <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
                             </svg>
-                            <span class="error-text">{{ error|escape }}</span>
+                            <span class="error-text">{{ message }}</span>
                         </div>
                     {% endfor %}
                 </div>
             {% endif %}
 
-            <button type="submit" class="create-account-btn" name="register">
-                Create Account
+            <button type="submit" class="sign-in-btn">
+                Sign In
             </button>
         </form>
 
@@ -178,8 +137,8 @@
             </p>
 
             <p class="signin-link">
-                Already a member?
-                <a href="{% url 'accounts:sign-in' %}">Sign In</a>
+                Don't have an account?
+                <a href="{% url 'accounts:sign-up' %}">Sign Up</a>
             </p>
         </div>
     </div>

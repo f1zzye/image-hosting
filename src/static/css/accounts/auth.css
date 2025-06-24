@@ -806,3 +806,119 @@ body.auth-page {
         font-size: 12px;
     }
 }
+
+/* Добавь в конец файла auth.css */
+
+/* Auth subtitle */
+.auth-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* Divider */
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 24px 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.divider-text {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    padding: 0 16px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Form options */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.remember-me .checkbox-label {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.remember-me .checkmark {
+    width: 18px;
+    height: 18px;
+}
+
+.remember-me .check-icon {
+    width: 12px;
+    height: 12px;
+}
+
+.forgot-password {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* Sign In Button */
+.sign-in-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    margin-bottom: 24px;
+}
+
+.sign-in-btn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.6);
+}
+
+.sign-in-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .form-options {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .forgot-password {
+        font-size: 13px;
+    }
+
+    .remember-me .checkbox-label {
+        font-size: 13px;
+    }
+}
