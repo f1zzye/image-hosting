@@ -106,7 +106,7 @@
                         <span class="checkbox-text">Remember me</span>
                     </label>
                 </div>
-                <a href="#" class="forgot-password">Forgot password?</a>
+                <a href="{% url 'accounts:password-reset' %}" class="forgot-password">Forgot password?</a>
             </div>
 
             {% if messages %}

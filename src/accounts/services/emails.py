@@ -24,6 +24,41 @@ def send_confirmation_email(request, user):
         },
     )
 
-    email = EmailMessage(subject=mail_subject, body=message, from_email=settings.EMAIL_HOST_USER, to=[user.email])
+    email = EmailMessage(
+        subject=mail_subject,
+        body=message,
+        from_email=settings.EMAIL_HOST_USER,
+        to=[user.email],
+    )
     email.content_subtype = "html"
     email.send()
+
+
+def send_password_reset_email(request, user):
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    current_site = get_current_site(request)
+    mail_subject = _("Reset password for PhotoHub")
+    message = render_to_string(
+        "emails/password_reset_email.html",
+        {
+            "user": user,
+            "domain": current_site.domain,
+            "uid": uid,
+            "token": token,
+        },
+    )
+
+    email = EmailMessage(
+        subject=mail_subject,
+        body=message,
+        from_email=settings.EMAIL_HOST_USER,
+        to=[user.email],
+    )
+    email.content_subtype = "html"
+    email.send()
+
+    success_message = _(
+        "We have sent you instructions by email to recover your password."
+    )
+    return reverse_lazy("core:index"), success_message

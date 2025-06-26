@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, authenticate
 from django.views.generic import CreateView, TemplateView
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordResetConfirmView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.encoding import force_str
@@ -12,7 +12,7 @@ from django.contrib.auth.tokens import default_token_generator
 from accounts.forms import UserRegisterForm
 from common.mixins import TitleMixin
 
-from accounts.services.emails import send_confirmation_email
+from accounts.services.emails import send_confirmation_email, send_password_reset_email
 
 User = get_user_model()
 
@@ -32,7 +32,10 @@ class UserRegisterView(TitleMixin, SuccessMessageMixin, CreateView):
         send_confirmation_email(self.request, self.object)
 
         username = form.cleaned_data.get("username")
-        messages.success(self.request, f"Account created for {username}! Please check your email to activate your account.")
+        messages.success(
+            self.request,
+            f"Account created for {username}! Please check your email to activate your account.",
+        )
 
         return redirect(self.success_url)
 
@@ -47,7 +50,7 @@ def activate_account_view(request, uidb64, token):
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user, backend='accounts.auth_backend.EmailBackend')
+        login(request, user, backend="accounts.auth_backend.EmailBackend")
         messages.success(request, "Your account has been successfully activated!")
         return redirect("core:index")
     else:
@@ -67,8 +70,7 @@ class UserLoginView(TitleMixin, TemplateView):
             user_check = User.objects.get(email=email)
             if not user_check.is_active:
                 messages.warning(
-                    request,
-                    "Please confirm your email to activate your account."
+                    request, "Please confirm your email to activate your account."
                 )
                 return self.render_to_response(self.get_context_data())
 
@@ -94,3 +96,36 @@ class UserLogoutView(LogoutView):
         if request.user.is_authenticated:
             messages.success(request, "You are logged out.")
         return super().dispatch(request, *args, **kwargs)
+
+
+class PasswordResetView(TitleMixin, TemplateView):
+    template_name = "reset-password/password_reset.html"
+    title = "Password Reset - PhotoHub"
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get("email")
+
+        try:
+            user = User.objects.get(email=email)
+            success_url, success_message = send_password_reset_email(request, user)
+            messages.success(request, success_message)
+            return redirect(success_url)
+        except User.DoesNotExist:
+            messages.error(request, "User with this email address not found.")
+            return redirect("accounts:password-reset")
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(self.get_context_data())
+
+
+class CustomPasswordResetConfirmView(
+    TitleMixin, SuccessMessageMixin, PasswordResetConfirmView
+):
+    template_name = "reset-password/password_reset_confirm.html"
+    title = "Reset Password - PhotoHub"
+    success_url = reverse_lazy("accounts:sign-in")
+    success_message = "Your password has been successfully reset! You can now sign in."
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        return response
