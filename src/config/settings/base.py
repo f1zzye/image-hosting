@@ -144,3 +144,7 @@ LOGIN_REDIRECT_URL = "core:index"
 LOGOUT_REDIRECT_URL = "core:index"
 
 SESSION_COOKIE_AGE = 86400
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+)
