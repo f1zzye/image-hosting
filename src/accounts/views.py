@@ -122,7 +122,7 @@ class CustomPasswordResetConfirmView(
     TitleMixin, SuccessMessageMixin, PasswordResetConfirmView
 ):
     template_name = "reset-password/password_reset_confirm.html"
-    title = "Reset Password - PhotoHub"
+    title = "Set New Password - PhotoHub"
     success_url = reverse_lazy("accounts:sign-in")
     success_message = "Your password has been successfully reset! You can now sign in."
 

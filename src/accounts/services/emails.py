@@ -9,6 +9,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 from config.celery import app
 
+
 @app.task
 def send_confirmation_email(request, user):
     token = default_token_generator.make_token(user)
