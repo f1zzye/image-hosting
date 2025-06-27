@@ -25,7 +25,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Custom apps
+    'social_django',
+
     # My apps
     "core",
     "accounts",
@@ -143,4 +146,9 @@ LOGOUT_REDIRECT_URL = "core:index"
 
 SESSION_COOKIE_AGE = 86400
 
-AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
+SOCIAL_AUTH_URL_NAMESPACE = "social"
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.google.GoogleOAuth2",
+)
