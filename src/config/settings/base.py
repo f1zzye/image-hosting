@@ -19,15 +19,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     "jazzmin",
-    "rest_framework",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     # Custom apps
     "social_django",
+    "rest_framework",
+    "drf_yasg",
+
     # My apps
     "api",
     "core",

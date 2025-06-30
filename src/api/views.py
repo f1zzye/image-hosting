@@ -7,6 +7,9 @@ from rest_framework.permissions import IsAuthenticated
 from api.permissions import IsAdminOrReadOnly
 from rest_framework.views import APIView
 from datetime import datetime, timezone
+from billing.models import TariffPlan, UserTariff
+
+from billing.serializers import TariffPlanSerializer, UserTariffSerializer
 
 
 class StatusView(APIView):
@@ -33,3 +36,22 @@ class ImagesViewSet(ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
     ordering_fields = ["created_at", "file_size"]
     ordering = ["-created_at"]
+
+
+class TariffPlanView(ModelViewSet):
+    queryset = TariffPlan.objects.all()
+    serializer_class = TariffPlanSerializer
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
+    search_fields = ["title", "description"]
+    ordering_fields = ["price", "title"]
+
+
+class UserTariffView(ModelViewSet):
+    queryset = UserTariff.objects.all()
+    serializer_class = UserTariffSerializer
+    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
+    search_fields = ["user__username", "plan__title"]
+    ordering_fields = ["-created_at"]
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
