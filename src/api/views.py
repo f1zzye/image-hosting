@@ -54,4 +54,13 @@ class UserTariffView(ModelViewSet):
     ordering_fields = ["-created_at"]
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        if getattr(self, 'swagger_fake_view', False):
+            return UserTariff.objects.none()
+
+        if not hasattr(self.request, 'user') or not self.request.user.is_authenticated:
+            return UserTariff.objects.none()
+
+        return UserTariff.objects.filter(
+            user=self.request.user,
+            is_active=True
+        ).select_related('plan', 'user')
