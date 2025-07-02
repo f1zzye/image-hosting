@@ -1,153 +1,234 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 
-{% block title %} {{title}} {% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/core/pricing.css' %}">
 {% endblock %}
 
 {% block content %}
-    <main>
-      <div class="container">
+<main>
+    <div class="container">
         <div class="hero-section">
-          <h1>Choose Your Plan</h1>
-          <p>Select the perfect plan for your photo hosting needs. All plans include secure storage, fast delivery, and 24/7 support.</p>
+            <h1>Choose Your Plan</h1>
+            <p>Select the perfect plan for your photo hosting needs. All plans include secure storage, fast delivery, and 24/7 support.</p>
+            {% if current_subscription %}
+                <div style="margin-top: 36px;">
+                    <h3>Current Plan: {{ current_subscription.plan.title }}</h3>
+                </div>
+            {% endif %}
         </div>
 
         <div class="pricing-grid">
-          <!-- Basic Plan -->
-          <div class="pricing-card">
-            <h3 class="plan-name">Basic</h3>
-            <div class="plan-price">
-              Free
+            <!-- Basic Plan -->
+            {% if basic_plan %}
+            <div class="pricing-card {% if current_subscription and current_subscription.plan.title == 'Basic' %}current-plan{% endif %}">
+                <h3 class="plan-name">{{ basic_plan.title }}</h3>
+                <div class="plan-price">
+                    {% if basic_plan.price == 0 %}
+                        Free
+                    {% else %}
+                        ${{ basic_plan.price }}<span>/month</span>
+                    {% endif %}
+                </div>
+                <p class="plan-description">{{ basic_plan.description }}</p>
+
+                <ul class="features-list">
+                    <li>
+                        {% if basic_plan.has_thumbnail_200px %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        200px Thumbnails
+                    </li>
+                    <li>
+                        {% if basic_plan.has_thumbnail_400px %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        400px Thumbnails
+                    </li>
+                    <li>
+                        {% if basic_plan.has_original_photo %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        Original Photos
+                    </li>
+                    <li>
+                        {% if basic_plan.has_binary_link %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        Binary Download Links
+                    </li>
+                </ul>
+
+                {% if current_subscription and current_subscription.plan.title == 'Basic' %}
+                    <button class="choose-plan-btn disabled" disabled>Current Plan</button>
+                {% else %}
+                    <button class="choose-plan-btn secondary">Get Started</button>
+                {% endif %}
             </div>
-            <p class="plan-description">Perfect for getting started with photo hosting</p>
+            {% endif %}
 
-            <ul class="features-list">
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                5GB Storage
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Up to 1000 photos
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Basic sharing
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Email support
-              </li>
-            </ul>
+            <!-- Premium Plan -->
+            {% if premium_plan %}
+            <div class="pricing-card featured {% if current_subscription and current_subscription.plan.title == 'Premium' %}current-plan{% endif %}">
+                <h3 class="plan-name">{{ premium_plan.title }}</h3>
+                <div class="plan-price">
+                    ${{ premium_plan.price }}<span>/month</span>
+                </div>
+                <p class="plan-description">{{ premium_plan.description }}</p>
 
-            <button class="choose-plan-btn secondary">Get Started</button>
-          </div>
+                <ul class="features-list">
+                    <li>
+                        {% if premium_plan.has_thumbnail_200px %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        200px Thumbnails
+                    </li>
+                    <li>
+                        {% if premium_plan.has_thumbnail_400px %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        400px Thumbnails
+                    </li>
+                    <li>
+                        {% if premium_plan.has_original_photo %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        Original Photos
+                    </li>
+                    <li>
+                        {% if premium_plan.has_binary_link %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        Binary Download Links
+                    </li>
+                </ul>
 
-          <!-- Premium Plan -->
-          <div class="pricing-card featured">
-            <h3 class="plan-name">Premium</h3>
-            <div class="plan-price">
-              $9.99<span>/month</span>
+                {% if current_subscription and current_subscription.plan.title == 'Premium' %}
+                    <button class="choose-plan-btn disabled" disabled>Current Plan</button>
+                {% else %}
+                    <button class="choose-plan-btn">Choose Premium</button>
+                {% endif %}
             </div>
-            <p class="plan-description">Best for photographers and content creators</p>
+            {% endif %}
 
-            <ul class="features-list">
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                100GB Storage
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Unlimited photos
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Advanced sharing & galleries
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Custom domains
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Priority support
-              </li>
-            </ul>
+            <!-- Enterprise Plan -->
+            {% if enterprise_plan %}
+            <div class="pricing-card {% if current_subscription and current_subscription.plan.title == 'Enterprise' %}current-plan{% endif %}">
+                <h3 class="plan-name">{{ enterprise_plan.title }}</h3>
+                <div class="plan-price">
+                    ${{ enterprise_plan.price }}<span>/month</span>
+                </div>
+                <p class="plan-description">{{ enterprise_plan.description }}</p>
 
-            <button class="choose-plan-btn">Choose Premium</button>
-          </div>
+                <ul class="features-list">
+                    <li>
+                        {% if enterprise_plan.has_thumbnail_200px %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        200px Thumbnails
+                    </li>
+                    <li>
+                        {% if enterprise_plan.has_thumbnail_400px %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        400px Thumbnails
+                    </li>
+                    <li>
+                        {% if enterprise_plan.has_original_photo %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        Original Photos
+                    </li>
+                    <li>
+                        {% if enterprise_plan.has_binary_link %}
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                        {% else %}
+                            <svg viewBox="0 0 24 24" class="cross-icon">
+                                <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
+                            </svg>
+                        {% endif %}
+                        Binary Download Links
+                    </li>
+                </ul>
 
-          <!-- Enterprise Plan -->
-          <div class="pricing-card">
-            <h3 class="plan-name">Enterprise</h3>
-            <div class="plan-price">
-              $29.99<span>/month</span>
+                {% if current_subscription and current_subscription.plan.title == 'Enterprise' %}
+                    <button class="choose-plan-btn disabled" disabled>Current Plan</button>
+                {% else %}
+                    <button class="choose-plan-btn">Choose Enterprise</button>
+                {% endif %}
             </div>
-            <p class="plan-description">For businesses and professional teams</p>
-
-            <ul class="features-list">
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                1TB Storage
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Unlimited everything
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Team collaboration
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                Advanced analytics
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                API access
-              </li>
-              <li>
-                <svg viewBox="0 0 24 24">
-                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
-                </svg>
-                24/7 phone support
-              </li>
-            </ul>
-
-            <button class="choose-plan-btn">Choose Enterprise</button>
-          </div>
+            {% endif %}
         </div>
-      </div>
-    </main>
+    </div>
+</main>
 {% endblock %}
