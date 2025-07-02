@@ -1,0 +1,153 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/core/pricing.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main>
+      <div class="container">
+        <div class="hero-section">
+          <h1>Choose Your Plan</h1>
+          <p>Select the perfect plan for your photo hosting needs. All plans include secure storage, fast delivery, and 24/7 support.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Basic Plan -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Basic</h3>
+            <div class="plan-price">
+              Free
+            </div>
+            <p class="plan-description">Perfect for getting started with photo hosting</p>
+
+            <ul class="features-list">
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                5GB Storage
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Up to 1000 photos
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Basic sharing
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Email support
+              </li>
+            </ul>
+
+            <button class="choose-plan-btn secondary">Get Started</button>
+          </div>
+
+          <!-- Premium Plan -->
+          <div class="pricing-card featured">
+            <h3 class="plan-name">Premium</h3>
+            <div class="plan-price">
+              $9.99<span>/month</span>
+            </div>
+            <p class="plan-description">Best for photographers and content creators</p>
+
+            <ul class="features-list">
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                100GB Storage
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Unlimited photos
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Advanced sharing & galleries
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Custom domains
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Priority support
+              </li>
+            </ul>
+
+            <button class="choose-plan-btn">Choose Premium</button>
+          </div>
+
+          <!-- Enterprise Plan -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Enterprise</h3>
+            <div class="plan-price">
+              $29.99<span>/month</span>
+            </div>
+            <p class="plan-description">For businesses and professional teams</p>
+
+            <ul class="features-list">
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                1TB Storage
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Unlimited everything
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Team collaboration
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Advanced analytics
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                API access
+              </li>
+              <li>
+                <svg viewBox="0 0 24 24">
+                  <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                24/7 phone support
+              </li>
+            </ul>
+
+            <button class="choose-plan-btn">Choose Enterprise</button>
+          </div>
+        </div>
+      </div>
+    </main>
+{% endblock %}
