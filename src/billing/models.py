@@ -32,6 +32,8 @@ class TariffPlan(models.Model):
         help_text=_("Built-in tariff (Basic, Premium, Enterprise)"),
     )
 
+    paypal_plan_id = models.CharField(max_length=300, unique=True, null=True, blank=True)
+
     has_thumbnail_200px = models.BooleanField(
         _("has 200px thumbnail"), default=True, help_text=_("Available thumbnail 200px")
     )
@@ -88,6 +90,8 @@ class UserTariff(models.Model):
         verbose_name=_("tariff plan"),
     )
 
+    paypal_subscription_id = models.CharField(max_length=300, null=True, blank=True)
+
     is_active = models.BooleanField(
         _("is active"), default=True, help_text=_("Is the tariff active")
     )
@@ -105,7 +109,7 @@ class UserTariff(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user.get_full_name()} - {self.plan.title}"
+        return f"{self.user.get_full_name()} - {self.plan.title} subscription"
 
     @property
     def subscriber_name(self):

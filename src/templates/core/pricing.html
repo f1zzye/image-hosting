@@ -23,7 +23,7 @@
         <div class="pricing-grid">
             <!-- Basic Plan -->
             {% if basic_plan %}
-            <div class="pricing-card {% if current_subscription and current_subscription.plan.title == 'Basic' %}current-plan{% endif %}">
+            <div class="pricing-card">
                 <h3 class="plan-name">{{ basic_plan.title }}</h3>
                 <div class="plan-price">
                     {% if basic_plan.price == 0 %}
@@ -95,7 +95,7 @@
 
             <!-- Premium Plan -->
             {% if premium_plan %}
-            <div class="pricing-card featured {% if current_subscription and current_subscription.plan.title == 'Premium' %}current-plan{% endif %}">
+            <div class="pricing-card featured">
                 <h3 class="plan-name">{{ premium_plan.title }}</h3>
                 <div class="plan-price">
                     ${{ premium_plan.price }}<span>/month</span>
@@ -163,7 +163,7 @@
 
             <!-- Enterprise Plan -->
             {% if enterprise_plan %}
-            <div class="pricing-card {% if current_subscription and current_subscription.plan.title == 'Enterprise' %}current-plan{% endif %}">
+            <div class="pricing-card">
                 <h3 class="plan-name">{{ enterprise_plan.title }}</h3>
                 <div class="plan-price">
                     ${{ enterprise_plan.price }}<span>/month</span>
