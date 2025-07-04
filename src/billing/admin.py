@@ -57,7 +57,14 @@ class TariffPlanAdmin(admin.ModelAdmin):
 
 @admin.register(UserTariff)
 class UserTariffAdmin(admin.ModelAdmin):
-    list_display = ["user", "plan", "paypal_subscription_id", "is_active", "created_at", "updated_at"]
+    list_display = [
+        "user",
+        "plan",
+        "paypal_subscription_id",
+        "is_active",
+        "created_at",
+        "updated_at",
+    ]
     list_filter = ["is_active", "plan", "created_at", "updated_at"]
     search_fields = [
         "user__username",

@@ -32,7 +32,9 @@ class TariffPlan(models.Model):
         help_text=_("Built-in tariff (Basic, Premium, Enterprise)"),
     )
 
-    paypal_plan_id = models.CharField(max_length=300, unique=True, null=True, blank=True)
+    paypal_plan_id = models.CharField(
+        max_length=300, unique=True, null=True, blank=True
+    )
 
     has_thumbnail_200px = models.BooleanField(
         _("has 200px thumbnail"), default=True, help_text=_("Available thumbnail 200px")
