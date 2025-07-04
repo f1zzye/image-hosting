@@ -1,0 +1,42 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Subscription Created - PhotoHub{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container" style="max-width: 600px; margin: 4rem auto; text-align: center; padding: 2rem;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+        <h1 style="color: #28a745; margin-bottom: 1rem;">Subscription Created!</h1>
+        <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+            You have successfully subscribed to the <strong>{{ subscription_plan }}</strong> plan.
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+            <h3>Your Plan Features:</h3>
+            <ul style="list-style: none; padding: 0;">
+                {% if plan.has_thumbnail_200px %}
+                <li style="color: #28a745; margin: 0.5rem 0;">✓ 200px thumbnails</li>
+                {% endif %}
+                {% if plan.has_thumbnail_400px %}
+                <li style="color: #28a745; margin: 0.5rem 0;">✓ 400px high-quality thumbnails</li>
+                {% endif %}
+                {% if plan.has_original_photo %}
+                <li style="color: #28a745; margin: 0.5rem 0;">✓ Original photo downloads</li>
+                {% endif %}
+                {% if plan.has_binary_link %}
+                <li style="color: #28a745; margin: 0.5rem 0;">✓ Temporary download links</li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div>
+            <a href="{% url 'billing:my_subscription' %}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #007bff; color: white; text-decoration: none; border-radius: 6px; margin-right: 1rem;">
+                Manage Subscription
+            </a>
+            <a href="{% url 'core:index' %}" style="display: inline-block; padding: 0.75rem 1.5rem; border: 2px solid #007bff; color: #007bff; text-decoration: none; border-radius: 6px;">
+                Go to Dashboard
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}
