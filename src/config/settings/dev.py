@@ -47,9 +47,9 @@ SOCIAL_AUTH_GITHUB_EXTRA_DATA = ["login", "name"]
 
 SOCIAL_AUTH_USER_FIELDS = ["username", "email", "first_name", "last_name"]
 
-PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID')
-PAYPAL_SECRET_ID = os.environ.get('PAYPAL_SECRET_ID')
+PAYPAL_CLIENT_ID = os.environ.get("PAYPAL_CLIENT_ID")
+PAYPAL_SECRET_ID = os.environ.get("PAYPAL_SECRET_ID")
 
 SITE_URL = "127.0.0.1:8000"
 
-PAYPAL_URL = os.environ.get('PAYPAL_URL')
+PAYPAL_URL = os.environ.get("PAYPAL_URL")
