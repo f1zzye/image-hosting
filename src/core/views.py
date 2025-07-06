@@ -5,6 +5,7 @@ from django.views.generic import TemplateView, View, ListView
 from common.mixins import TitleMixin
 
 from billing.models import TariffPlan, UserTariff
+from django.conf import settings
 
 
 class IndexView(TitleMixin, TemplateView):
@@ -12,7 +13,7 @@ class IndexView(TitleMixin, TemplateView):
     title = "PhotoHub - Premium Photo Hosting"
 
 
-class SubscriptionPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
+class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
     template_name = "core/pricing.html"
     title = "Subscription Plans - PhotoHub"
 
@@ -37,6 +38,8 @@ class SubscriptionPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
                 "basic_plan": plans_dict.get("Basic"),
                 "premium_plan": plans_dict.get("Premium"),
                 "enterprise_plan": plans_dict.get("Enterprise"),
+                "premium_plan_id": settings.PREMIUM_TARIFF_ID,
+                "enterprise_plan_id": settings.ENTERPRISE_TARIFF_ID,
             }
         )
 

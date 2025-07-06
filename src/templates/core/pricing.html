@@ -13,11 +13,9 @@
         <div class="hero-section">
             <h1>Choose Your Plan</h1>
             <p>Select the perfect plan for your photo hosting needs. All plans include secure storage, fast delivery, and 24/7 support.</p>
-            {% if current_subscription %}
-                <div style="margin-top: 36px;">
-                    <h3>Current Plan: {{ current_subscription.plan.title }}</h3>
-                </div>
-            {% endif %}
+            <div style="margin-top: 36px;">
+                <h3>Current Plan: {{ current_subscription.plan.title }}</h3>
+            </div>
         </div>
 
         <div class="pricing-grid">
@@ -85,10 +83,11 @@
                     </li>
                 </ul>
 
-                {% if current_subscription and current_subscription.plan.title == 'Basic' %}
+                {% if current_subscription.plan.title == 'Basic' %}
                     <button class="choose-plan-btn disabled" disabled>Current Plan</button>
                 {% else %}
-                    <button class="choose-plan-btn secondary">Get Started</button>
+                    <!-- Кнопка для downgrade к Basic плану -->
+                    <button class="choose-plan-btn secondary">Downgrade to Basic</button>
                 {% endif %}
             </div>
             {% endif %}
@@ -153,10 +152,31 @@
                     </li>
                 </ul>
 
-                {% if current_subscription and current_subscription.plan.title == 'Premium' %}
+                {% if current_subscription.plan.title == 'Premium' %}
                     <button class="choose-plan-btn disabled" disabled>Current Plan</button>
                 {% else %}
-                    <button class="choose-plan-btn">Choose Premium</button>
+                    <!-- PayPal Premium Button -->
+                    <div id="paypal-button-container-premium"></div>
+                    <script src="https://www.paypal.com/sdk/js?client-id=AWlQofV_kJ2k_IPUR7zNcH2Vol3q2eTNHlzSvAmC4bEB2EJ-VcYi0BmzbFb1qm8cZbia2hlvhq1YB6aj&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+                    <script>
+                        paypal.Buttons({
+                            style: {
+                                shape: 'pill',
+                                color: 'blue',
+                                layout: 'horizontal',
+                                label: 'subscribe'
+                            },
+                            createSubscription: function (data, actions) {
+                                return actions.subscription.create({
+                                    plan_id: '{{ premium_plan_id }}'
+                                });
+                            },
+                            onApprove: function (data, actions) {
+                                const current_url = '/billing/update-tariff/' + data.subscriptionID + "/Premium"
+                                window.open(current_url, '_self')
+                            }
+                        }).render('#paypal-button-container-premium');
+                    </script>
                 {% endif %}
             </div>
             {% endif %}
@@ -221,10 +241,30 @@
                     </li>
                 </ul>
 
-                {% if current_subscription and current_subscription.plan.title == 'Enterprise' %}
+                {% if current_subscription.plan.title == 'Enterprise' %}
                     <button class="choose-plan-btn disabled" disabled>Current Plan</button>
                 {% else %}
-                    <button class="choose-plan-btn">Choose Enterprise</button>
+                    <!-- PayPal Enterprise Button -->
+                    <div id="paypal-button-container-enterprise"></div>
+                    <script>
+                        paypal.Buttons({
+                            style: {
+                                shape: 'pill',
+                                color: 'silver',
+                                layout: 'horizontal',
+                                label: 'subscribe'
+                            },
+                            createSubscription: function (data, actions) {
+                                return actions.subscription.create({
+                                    plan_id: '{{ enterprise_plan_id }}'
+                                });
+                            },
+                            onApprove: function (data, actions) {
+                                const current_url = '/billing/update-tariff/' + data.subscriptionID + "/Enterprise"
+                                window.open(current_url, '_self')
+                            }
+                        }).render('#paypal-button-container-enterprise');
+                    </script>
                 {% endif %}
             </div>
             {% endif %}

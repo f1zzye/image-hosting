@@ -1,0 +1,105 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/billing/upgrade_success.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <div class="success-container">
+            <!-- Success Animation -->
+            <div class="success-animation">
+                <div class="checkmark-circle">
+                    <div class="checkmark">✓</div>
+                </div>
+                <div class="celebration-confetti">
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                    <div class="confetti"></div>
+                </div>
+            </div>
+
+            <!-- Success Content -->
+            <div class="success-content">
+                <h1 class="success-title">🎉 Congratulations!</h1>
+                <h2 class="success-subtitle">Your plan has been upgraded successfully!</h2>
+
+                <div class="plan-info">
+                    <div class="plan-badge">
+                        <span class="plan-icon">⭐</span>
+                        <span class="plan-name">{{ tariff_plan.title }} Plan</span>
+                    </div>
+                    <p class="plan-description">
+                        You now have access to all <strong>{{ tariff_plan.title }}</strong> features and benefits.
+                        Start exploring your new capabilities right away!
+                    </p>
+                </div>
+
+                <!-- New Features Highlight -->
+                <div class="features-unlock">
+                    <h3>🔓 What's unlocked for you:</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">📷</div>
+                            <span>200px Thumbnails</span>
+                        </div>
+
+                        {% if tariff_plan.has_thumbnail_400px %}
+                        <div class="feature-item">
+                            <div class="feature-icon">📸</div>
+                            <span>400px Thumbnails</span>
+                        </div>
+                        {% endif %}
+
+                        {% if tariff_plan.has_original_photo %}
+                        <div class="feature-item">
+                            <div class="feature-icon">🖼️</div>
+                            <span>Original Photos</span>
+                        </div>
+                        {% endif %}
+
+                        {% if tariff_plan.has_binary_link %}
+                        <div class="feature-item">
+                            <div class="feature-icon">🔗</div>
+                            <span>Binary Download Links</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="{% url 'core:index' %}" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                        Go to Dashboard
+                    </a>
+
+                    <a href="{% url 'core:pricing' %}" class="btn btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        View All Plans
+                    </a>
+                </div>
+
+                <!-- Support Info -->
+                <div class="support-info">
+                    <p>
+                        <strong>Need help?</strong> Our support team is here for you 24/7.
+                        <a href="">Contact Support</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
