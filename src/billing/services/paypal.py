@@ -78,7 +78,9 @@ def get_current_tariff(access_token, tariff_id):
         return None
 
 
-def cancel_subscription(access_token, subscription_id, reason="User requested cancellation"):
+def cancel_subscription(
+    access_token, subscription_id, reason="User requested cancellation"
+):
     url = f'{os.environ.get("PAYPAL_URL")}/v1/billing/subscriptions/{subscription_id}/cancel'
 
     data = {"reason": reason}
