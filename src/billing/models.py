@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 
 class TariffPlan(models.Model):
@@ -98,6 +99,13 @@ class UserTariff(models.Model):
         _("is active"), default=True, help_text=_("Is the tariff active")
     )
 
+    expires_at = models.DateTimeField(
+        _("expires at"),
+        null=True,
+        blank=True,
+        help_text=_("When the subscription expires (null for Basic plan)"),
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -120,3 +128,11 @@ class UserTariff(models.Model):
     @property
     def subscription_plan_title(self):
         return self.plan.title
+
+    def is_expired(self):
+        if not self.expires_at:
+            return False
+        return timezone.now() > self.expires_at
+
+    def is_basic_plan(self):
+        return self.plan.title == "Basic"
