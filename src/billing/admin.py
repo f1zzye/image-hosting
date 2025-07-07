@@ -61,6 +61,7 @@ class UserTariffAdmin(admin.ModelAdmin):
         "user",
         "plan",
         "paypal_subscription_id",
+        "expires_at",
         "is_active",
         "created_at",
         "updated_at",
