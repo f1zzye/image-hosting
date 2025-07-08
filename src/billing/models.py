@@ -106,6 +106,12 @@ class UserTariff(models.Model):
         help_text=_("When the subscription expires (null for Basic plan)"),
     )
 
+    expiration_notification_sent = models.BooleanField(
+        _("expiration notification sent"),
+        default=False,
+        help_text=_("Whether expiration notification email has been sent"),
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
