@@ -196,16 +196,4 @@ CELERY_RESULT_SERIALIZER = "json"
 
 CELERY_TIMEZONE = "UTC"
 
-CELERY_BEAT_SCHEDULE = {
-    "process-expired-tariffs": {
-        "task": "billing.tasks.process_expired_tariffs",
-        "schedule": crontab(minute="*/5"),  # Каждые 5 минут для тестирования
-        # После тестирования: crontab(minute=0, hour='*/1') - каждый час
-    },
-    "check-expiring-subscriptions": {
-        "task": "billing.tasks.check_expiring_subscriptions",
-        "schedule": crontab(minute="*/10"),  # Каждые 10 минут для тестирования
-    },
-}
-
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"

@@ -2,6 +2,7 @@ import os
 
 from config.settings.base import *  # noqa
 from decouple import config
+from celery.schedules import crontab
 
 DEBUG = True
 
@@ -56,3 +57,14 @@ PREMIUM_TARIFF_ID = config("PREMIUM_TARIFF_ID")
 ENTERPRISE_TARIFF_ID = config("ENTERPRISE_TARIFF_ID")
 
 SITE_URL = "localhost:8000"
+
+CELERY_BEAT_SCHEDULE = {
+    "process-expired-tariffs": {
+        "task": "billing.tasks.process_expired_tariffs",
+        "schedule": crontab(minute="*/5"),  # Каждые 5 минут для тестирования
+    },
+    "check-expiring-subscriptions": {
+        "task": "billing.tasks.check_expiring_subscriptions",
+        "schedule": crontab(minute="*/10"),  # Каждые 10 минут для тестирования
+    },
+}
