@@ -5,8 +5,8 @@ from django.views import View
 from common.mixins import TitleMixin
 from datetime import timedelta
 from django.utils import timezone
-
-from billing.models import TariffPlan, UserTariff
+from .tasks import send_subscription_expiring_email_task
+from .models import TariffPlan, UserTariff
 
 
 class UpgradeTariff(TitleMixin, LoginRequiredMixin, View):
@@ -27,6 +27,7 @@ class UpgradeTariff(TitleMixin, LoginRequiredMixin, View):
         else:
             current_tariff.expires_at = None
 
+        current_tariff.expiration_notification_sent = False
         current_tariff.save()
 
         context = {"tariff_plan": new_plan_obj, "title": self.title}

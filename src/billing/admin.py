@@ -75,15 +75,23 @@ class UserTariffAdmin(admin.ModelAdmin):
         "plan__title",
     ]
     ordering = ["-created_at"]
-    readonly_fields = ["paypal_subscription_id", "created_at", "updated_at"]
+    readonly_fields = [
+        "paypal_subscription_id",
+        "created_at",
+        "updated_at",
+        "expiration_notification_sent",
+    ]
 
     autocomplete_fields = ["user"]
 
     fieldsets = (
         (_("Tariff Details"), {"fields": ("user", "plan", "is_active")}),
         (
-            _("Timestamps"),
-            {"fields": ("created_at", "updated_at"), "classes": ("collapse",)},
+            _("Extra Information"),
+            {
+                "fields": ("created_at", "updated_at", "expiration_notification_sent"),
+                "classes": ("collapse",),
+            },
         ),
     )
 

@@ -202,6 +202,10 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute="*/5"),  # Каждые 5 минут для тестирования
         # После тестирования: crontab(minute=0, hour='*/1') - каждый час
     },
+    "check-expiring-subscriptions": {
+        "task": "billing.tasks.check_expiring_subscriptions",
+        "schedule": crontab(minute="*/10"),  # Каждые 10 минут для тестирования
+    },
 }
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"

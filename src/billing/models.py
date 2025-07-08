@@ -105,6 +105,7 @@ class UserTariff(models.Model):
         blank=True,
         help_text=_("When the subscription expires (null for Basic plan)"),
     )
+    expiration_notification_sent = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -128,6 +129,19 @@ class UserTariff(models.Model):
     @property
     def subscription_plan_title(self):
         return self.plan.title
+
+    @property
+    def days_until_expiry(self):
+        if not self.expires_at:
+            return None
+        return (self.expires_at - timezone.now()).days
+
+    @property
+    def should_send_notification(self):
+        if not self.expires_at or self.expiration_notification_sent:
+            return False
+        days_left = self.days_until_expiry
+        return days_left == 3
 
     def is_expired(self):
         if not self.expires_at:
