@@ -5,6 +5,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from api.views import ImagesViewSet, StatusView, TariffPlanView, UserTariffView
+from images.views import ImageViewSet
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -30,7 +31,7 @@ schema_view = get_schema_view(
 
 router = routers.DefaultRouter()
 
-router.register("images", ImagesViewSet, basename="images")
+router.register("images", ImageViewSet, basename="images")
 router.register("tariffs", TariffPlanView, basename="tariffs")
 router.register("user-tariffs", UserTariffView, basename="user-tariffs")
 
