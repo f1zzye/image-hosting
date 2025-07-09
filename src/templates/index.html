@@ -1,8 +1,7 @@
 {% extends 'partials/base.html' %}
 {% load static %}
 
-
-{% block title %} {{title}} {% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
@@ -58,25 +57,68 @@
     </section>
 
     <section class="upload-section" id="upload">
-        <div class="container">
-            <h2 class="section-title">Share Your Masterpiece</h2>
-            <p class="section-subtitle">Upload your photos and share them with the world</p>
+    <div class="container">
+        <h2 class="section-title">Share Your Masterpiece</h2>
+        <p class="section-subtitle">Upload your photos and share them with the world</p>
 
-            <div class="upload-area" onclick="triggerFileInput()">
+        <form method="post" enctype="multipart/form-data" id="uploadForm" action="{% url 'core:index' %}">
+            {% csrf_token %}
+            <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">
                     <svg viewBox="0 0 24 24">
                         <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
                     </svg>
                 </div>
-                <h3>Drop your photos here</h3>
+                <h3>Drop your photo here or click to select</h3>
                 <div class="format-tags">
                     <span class="format-tag">JPG</span>
                     <span class="format-tag">JPEG</span>
                     <span class="format-tag">PNG</span>
                 </div>
-                <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                {{ form.original_image }}
             </div>
-        </div>
-    </section>
+        </form>
+    </div>
+</section>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const uploadForm = document.getElementById('uploadForm');
+
+    function triggerFileInput() {
+        fileInput.click();
+    }
+
+    if (uploadArea && fileInput) {
+        uploadArea.addEventListener('click', function(e) {
+            triggerFileInput();
+        });
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                uploadForm.submit();
+            }
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (fileInput.files.length > 0) {
+                uploadForm.submit();
+            }
+        });
+    }
+});
+</script>
 </main>
+
 {% endblock %}

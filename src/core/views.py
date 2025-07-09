@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, ListView
 
 from common.mixins import TitleMixin
-
+from images.forms import ImageUploadForm
 from billing.models import TariffPlan, UserTariff
 from django.conf import settings
 
@@ -11,6 +11,19 @@ from django.conf import settings
 class IndexView(TitleMixin, TemplateView):
     template_name = "index.html"
     title = "PhotoHub - Premium Photo Hosting"
+
+    def get(self, request):
+        form = ImageUploadForm()
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.user = request.user
+            image.save()
+        return redirect("core:index")
 
 
 class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
