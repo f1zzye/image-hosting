@@ -1,0 +1,65 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/core/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+  <div class="container">
+    <div class="profile-header">
+      <div class="profile-header-top">
+        <div class="profile-info">
+          <div class="profile-avatar" id="profileAvatar">U</div>
+          <div class="profile-details">
+            <h1 id="userName">User Name</h1>
+            <p id="userEmail">user@example.com</p>
+            <p>Member since 2024</p>
+          </div>
+        </div>
+        <button class="settings-btn" type="button">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+          Settings
+        </button>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="photoCount">0</span>
+          <span class="stat-label">Photos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1.2GB</span>
+          <span class="stat-label">Storage Used</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Free</span>
+          <span class="stat-label">Plan</span>
+        </div>
+      </div>
+    </div>
+    <div class="photos-section">
+      <div class="section-header">
+        <h2 class="section-title">My Photos</h2>
+        <button class="upload-btn" onclick="triggerFileUpload()">
+          <i class="fa fa-lg fa-cloud-upload" aria-hidden="true"></i>
+          Upload Photos
+        </button>
+      </div>
+      <div class="photos-grid" id="photosGrid">
+        <div class="empty-state" id="emptyState">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+          </svg>
+          <h3>No photos yet</h3>
+          <p>Upload your first photo to get started!</p>
+        </div>
+      </div>
+    </div>
+    <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+  </div>
+</main>
+{% endblock %}

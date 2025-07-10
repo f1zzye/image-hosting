@@ -1,0 +1,188 @@
+.profile-header {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.profile-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  gap: 1.5rem;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.upload-btn,
+.settings-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+/* UPLOAD BUTTON — made smaller */
+.upload-btn {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  font-size: 0.92rem;
+  padding: 0.38rem 0.8rem;
+}
+.upload-btn:hover {
+  transform: translateY(-2px);
+}
+.upload-btn i {
+  margin-right: 0.5em;
+}
+
+/* SETTINGS BUTTON — green/blue gradient */
+.settings-btn {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+.settings-btn:hover {
+  transform: translateY(-2px);
+}
+.settings-btn i {
+  margin-right: 0.5em;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+}
+
+.profile-details h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+}
+
+.profile-details p {
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: #0f172a;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3b82f6;
+  display: block;
+}
+
+.stat-label {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.photos-section {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.photos-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #94a3b8;
+}
+
+.empty-state svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  color: #e2e8f0;
+  margin-bottom: 0.5rem;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .profile-header-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  .photos-grid {
+    min-height: 200px;
+  }
+  .settings-btn {
+    align-self: center;
+    justify-content: center;
+  }
+}

@@ -19,7 +19,9 @@ class IndexView(TitleMixin, TemplateView):
 
     def post(self, request):
         if not request.user.is_authenticated:
-            messages.warning(request, "Please sign in or create an account to upload photos.")
+            messages.warning(
+                request, "Please sign in or create an account to upload photos."
+            )
             return redirect("accounts:sign-in")
 
         form = ImageUploadForm(request.POST, request.FILES)
@@ -61,3 +63,8 @@ class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
         )
 
         return context
+
+
+class ProfileView(TitleMixin, TemplateView):
+    template_name = "core/profile.html"
+    title = "Profile - PhotoHub"
