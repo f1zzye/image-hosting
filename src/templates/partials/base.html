@@ -187,18 +187,6 @@
     <script src="{% static 'js/navigation.js' %}"></script>
     <script src="{% static 'js/flash-messages.js' %}"></script>
     <script>
-        function triggerFileInput() {
-            document.getElementById('fileInput').click();
-        }
-
-        // Handle file upload
-        document.getElementById('fileInput').addEventListener('change', function(event) {
-            const files = event.target.files;
-            if (files.length > 0) {
-                alert(`Selected ${files.length} file(s) for upload!`);
-            }
-        });
-
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();

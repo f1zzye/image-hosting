@@ -7,7 +7,7 @@ class ImageUploadForm(forms.ModelForm):
         model = Image
         fields = ["original_image"]
         widgets = {
-            "original_image": forms.ClearableFileInput(
+            "original_image": forms.FileInput(
                 attrs={
                     "accept": "image/jpeg,image/jpg,image/png",
                     "multiple": False,

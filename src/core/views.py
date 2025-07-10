@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View, ListView
-
+from django.contrib import messages
 from common.mixins import TitleMixin
 from images.forms import ImageUploadForm
 from billing.models import TariffPlan, UserTariff
@@ -18,6 +18,10 @@ class IndexView(TitleMixin, TemplateView):
         return render(request, self.template_name, context)
 
     def post(self, request):
+        if not request.user.is_authenticated:
+            messages.warning(request, "Please sign in or create an account to upload photos.")
+            return redirect("accounts:sign-in")
+
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
