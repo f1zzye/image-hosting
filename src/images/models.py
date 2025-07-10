@@ -10,6 +10,7 @@ from django.core.validators import (
 )
 from django.db import models
 from django.utils import timezone
+from django.db.models import Sum
 
 
 class Image(models.Model):
@@ -61,6 +62,26 @@ class Image(models.Model):
 
     def get_absolute_url(self):
         return reverse("images:detail", kwargs={"pk": self.pk})
+
+    def get_user_total_size_formatted(self):
+
+        total_size_bytes = (
+            Image.objects.filter(user=self.user).aggregate(total_size=Sum("file_size"))[
+                "total_size"
+            ]
+            or 0
+        )
+
+        if total_size_bytes == 0:
+            return "0 B"
+        elif total_size_bytes < 1024:
+            return f"{total_size_bytes} B"
+        elif total_size_bytes < 1024 * 1024:
+            return f"{round(total_size_bytes / 1024, 1)} KB"
+        elif total_size_bytes < 1024 * 1024 * 1024:
+            return f"{round(total_size_bytes / (1024 * 1024), 1)} MB"
+        else:
+            return f"{round(total_size_bytes / (1024 * 1024 * 1024), 1)} GB"
 
 
 class ImageThumbnail(models.Model):

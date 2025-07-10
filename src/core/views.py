@@ -7,6 +7,10 @@ from images.forms import ImageUploadForm
 from billing.models import TariffPlan, UserTariff
 from django.conf import settings
 
+from images.models import Image
+
+from accounts.models import Profile
+
 
 class IndexView(TitleMixin, TemplateView):
     template_name = "index.html"
@@ -29,7 +33,7 @@ class IndexView(TitleMixin, TemplateView):
             image = form.save(commit=False)
             image.user = request.user
             image.save()
-        return redirect("core:index")
+        return redirect("core:profile")
 
 
 class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
@@ -68,3 +72,32 @@ class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
 class ProfileView(TitleMixin, TemplateView):
     template_name = "core/profile.html"
     title = "Profile - PhotoHub"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        user_images = Image.objects.filter(user=user)
+
+        total_photos = user_images.count()
+
+        profile = Profile.objects.get(user=user)
+
+        try:
+            user_plan = user.tariff.plan.title
+        except AttributeError:
+            user_plan = "Basic"
+
+        context.update(
+            {
+                "user_profile": user,
+                "user_images": user_images,
+                "total_photos": total_photos,
+                "user_email": user.email,
+                "user_username": user.username,
+                "member_since": user.get_member_since,
+                "user_plan": user_plan,
+                "profile": profile,
+            }
+        )
+        return context

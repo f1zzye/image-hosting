@@ -76,8 +76,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         full_name = "%s %s" % (self.first_name, self.last_name)
         return full_name.strip()
 
-    def get_online_time(self) -> str:
-        return f"Time online: {timezone.now() - self.date_joined}"
+    def get_member_since(self) -> str:
+        return f"Member since {self.date_joined.strftime('%B %Y')}"
 
 
 class Profile(models.Model):
