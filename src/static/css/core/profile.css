@@ -1,3 +1,4 @@
+/* ==== PROFILE HEADER ==== */
 .profile-header {
   background: #1e293b;
   border-radius: 12px;
@@ -7,7 +8,6 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(148, 163, 184, 0.1);
 }
-
 .profile-header-top {
   display: flex;
   justify-content: space-between;
@@ -15,13 +15,13 @@
   margin-bottom: 1.5rem;
   gap: 1.5rem;
 }
-
 .profile-info {
   display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
+/* ==== BUTTONS ==== */
 .upload-btn,
 .settings-btn {
   font-family: inherit;
@@ -39,12 +39,11 @@
   color: white;
   transition: transform 0.3s ease;
 }
-
-/* UPLOAD BUTTON — made smaller */
 .upload-btn {
   background: linear-gradient(135deg, #3b82f6, #6366f1);
   font-size: 0.92rem;
   padding: 0.38rem 0.8rem;
+  text-decoration: none;
 }
 .upload-btn:hover {
   transform: translateY(-2px);
@@ -52,8 +51,6 @@
 .upload-btn i {
   margin-right: 0.5em;
 }
-
-/* SETTINGS BUTTON — green/blue gradient */
 .settings-btn {
   background: linear-gradient(135deg, #3b82f6, #6366f1);
   font-size: 1rem;
@@ -66,6 +63,7 @@
   margin-right: 0.5em;
 }
 
+/* ==== AVATAR ==== */
 .profile-avatar {
   width: 100px;
   height: 100px;
@@ -78,8 +76,6 @@
   border: 3px solid rgba(59, 130, 246, 0.3);
   position: relative;
 }
-
-/* Картинка внутри аватара — всегда круглая, не искажена */
 .profile-avatar .avatar-img {
   width: 100%;
   height: 100%;
@@ -87,24 +83,20 @@
   object-position: center;
   display: block;
 }
-
 .profile-details h1 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #e2e8f0;
 }
-
 .profile-details p {
   color: #94a3b8;
   margin-bottom: 0.25rem;
 }
-
 .profile-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
 }
-
 .stat-item {
   text-align: center;
   padding: 1rem;
@@ -112,19 +104,18 @@
   border-radius: 8px;
   border: 1px solid rgba(148, 163, 184, 0.1);
 }
-
 .stat-number {
   font-size: 1.5rem;
   font-weight: 700;
   color: #3b82f6;
   display: block;
 }
-
 .stat-label {
   color: #94a3b8;
   font-size: 0.9rem;
 }
 
+/* ==== PHOTOS SECTION ==== */
 .photos-section {
   background: #1e293b;
   border-radius: 12px;
@@ -133,21 +124,17 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(148, 163, 184, 0.1);
 }
-
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
 }
-
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #e2e8f0;
 }
-
-/* --- АДАПТИВНАЯ СЕТКА ФОТО --- */
 .photos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -157,21 +144,23 @@
   min-height: 200px;
   width: 100%;
   padding: 0.5rem 0;
+  overflow: visible;
+  position: relative;
 }
-
 .user-photo {
   width: 100%;
   max-width: 150px;
   aspect-ratio: 1 / 1;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible;
   background: #0f172a;
   box-shadow: 0 2px 6px rgba(0,0,0,0.13);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  position: relative;
 }
-
 .user-photo img {
   width: 100%;
   height: 100%;
@@ -179,21 +168,109 @@
   display: block;
 }
 
-/* Empty state выровнять по центру, занимает всю ширину */
-.photos-grid .empty-state {
-  grid-column: 1/-1;
-  width: 100%;
+/* ==== PHOTO ACTIONS ==== */
+.photo-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2.5rem 0;
+  gap: 4px;
+  z-index: 2;
+}
+.action-btn {
+  background: rgba(30,41,59,0.85);
+  border: none;
+  color: #fff;
+  padding: 5px 7px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.18s;
+  font-size: 1.05rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.17);
+}
+.action-btn:hover {
+  background: #3b82f6;
 }
 
+/* ==== DOWNLOAD MENU ==== */
+.download-menu {
+  position: absolute;
+  top: 38px;
+  right: 0;
+  min-width: 215px;
+  max-width: 95vw;
+  background: #f3f4f6;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  border-radius: 9px;
+  padding: 12px 0 8px 0;
+  display: none;
+  z-index: 9999 !important;
+  transition: opacity 0.22s, transform 0.22s;
+  opacity: 0;
+  pointer-events: none;
+}
+.download-menu.show {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+.download-menu-header {
+  padding: 8px 16px 4px 16px;
+  font-weight: 600;
+  background: #e5e7eb;
+  border-radius: 8px 8px 0 0;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1rem;
+}
+.download-menu-group {
+  padding: 8px 16px 0 16px;
+  display: flex;
+  flex-direction: row; /* КНОПКИ В СТРОКУ ВСЕГДА */
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.download-menu-label {
+  min-width: 64px;
+  font-size: 0.97rem;
+  color: #3b82f6;
+  font-weight: 500;
+}
+.menu-option {
+  background: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  margin-right: 3px;
+  color: #1e293b;
+  font-size: 0.97rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(59,130,246,0.09);
+  transition: background 0.13s;
+  width: auto;
+  justify-content: center;
+}
+.menu-option:hover {
+  background: #e0e7ff;
+}
+
+/* ==== RESPONSIVE ==== */
 @media (max-width: 1024px) {
   .photos-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+    position: relative;
+  }
+  .user-photo {
+    max-width: 100%;
+    min-width: 120px;
   }
 }
 @media (max-width: 768px) {
@@ -206,10 +283,18 @@
     flex-direction: column;
     text-align: center;
   }
+  .settings-btn {
+    align-self: center;
+    justify-content: center;
+    width: auto;
+    margin: 0 auto;
+    display: inline-flex;
+  }
   .photos-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     min-height: 120px;
+    position: relative;
   }
   .user-photo {
     max-width: 100%;
@@ -217,37 +302,98 @@
   }
 }
 @media (max-width: 480px) {
-  .photos-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+  .download-menu {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: none;
+    min-width: 170px;
+    max-width: 95vw;
+    width: 50vw;
+    font-size: 0.98rem;
+    border-radius: 13px;
+    background: #f3f4f6;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    max-height: 60vh;
+    overflow-y: auto;
+    z-index: 9999 !important;
+    padding: 12px 0 8px 0;
   }
-  .user-photo {
-    max-width: 100%;
-    min-width: 80px;
+  .download-menu-header {
+    font-size: 1rem;
+    padding: 8px 16px 4px 16px;
+    background: #e5e7eb;
+    border-radius: 13px 13px 0 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #1e293b;
+  }
+  .download-menu-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px 0 16px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .download-menu-label {
+    font-size: 0.97rem;
+    color: #3b82f6;
+    font-weight: 500;
+    min-width: 64px;
+    margin-bottom: 0;
+  }
+  .menu-option {
+    background: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 16px;
+    margin-right: 3px;
+    color: #1e293b;
+    font-size: 0.97rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(59,130,246,0.09);
+    transition: background 0.13s;
+    width: auto;
+    justify-content: center;
+  }
+  .menu-option:hover {
+    background: #e0e7ff;
   }
 }
 
+/* ==== EMPTY STATE ==== */
+.photos-grid .empty-state {
+  grid-column: 1/-1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 0;
+}
 .empty-state {
   text-align: center;
   color: #94a3b8;
 }
-
 .empty-state svg {
   width: 64px;
   height: 64px;
   margin-bottom: 1rem;
   opacity: 0.5;
 }
-
 .empty-state h3 {
   color: #e2e8f0;
   margin-bottom: 0.5rem;
 }
-
 .hidden {
   display: none;
-}
-
-.upload-btn {
-  text-decoration: none;
 }

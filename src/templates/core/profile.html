@@ -6,6 +6,7 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
 <link rel="stylesheet" href="{% static 'css/core/profile.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
@@ -64,6 +65,35 @@
           {% for image in user_images %}
             <div class="user-photo">
               <img src="{{ image.original_image.url }}" alt="Photo {{ forloop.counter }}">
+              <div class="photo-actions">
+                <button class="action-btn download-btn" title="Download">
+                  <i class="fa fa-download"></i>
+                </button>
+                <button class="action-btn delete-btn" title="Delete">
+                  <i class="fa fa-trash"></i>
+                </button>
+                <!-- Выпадающее меню скачивания -->
+                <div class="download-menu">
+                  <div class="download-menu-header">
+                    <i class="fa fa-download"></i> Download
+                  </div>
+                  <div class="download-menu-group">
+                    <div class="download-menu-label">200px:</div>
+                    <button class="menu-option"><i class="fa fa-file-image-o"></i> PNG</button>
+                    <button class="menu-option"><i class="fa fa-file-image-o"></i> JPEG</button>
+                  </div>
+                  <div class="download-menu-group">
+                    <div class="download-menu-label">400px:</div>
+                    <button class="menu-option"><i class="fa fa-file-image-o"></i> PNG</button>
+                    <button class="menu-option"><i class="fa fa-file-image-o"></i> JPEG</button>
+                  </div>
+                  <div class="download-menu-group">
+                    <div class="download-menu-label">Original:</div>
+                    <button class="menu-option"><i class="fa fa-file-image-o"></i> PNG</button>
+                    <button class="menu-option"><i class="fa fa-file-image-o"></i> JPEG</button>
+                  </div>
+                </div>
+              </div>
             </div>
           {% endfor %}
         {% else %}
@@ -80,4 +110,32 @@
     <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
   </div>
 </main>
+
+<script>
+document.querySelectorAll('.user-photo').forEach(photo => {
+  const downloadBtn = photo.querySelector('.download-btn');
+  const downloadMenu = photo.querySelector('.download-menu');
+  if (downloadBtn && downloadMenu) {
+    downloadBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Закрыть другие меню
+      document.querySelectorAll('.download-menu').forEach(menu => {
+        if (menu !== downloadMenu) menu.classList.remove('show');
+      });
+      downloadMenu.classList.toggle('show');
+    });
+    // Закрыть меню при клике вне фото
+    document.addEventListener('click', (e) => {
+      if (!photo.contains(e.target)) downloadMenu.classList.remove('show');
+    });
+  }
+  // Delete button (реализуй свою логику удаления!)
+  const deleteBtn = photo.querySelector('.delete-btn');
+  if (deleteBtn) {
+    deleteBtn.addEventListener('click', () => {
+      alert('Удаление фото (реализуй свою логику)');
+    });
+  }
+});
+</script>
 {% endblock %}
