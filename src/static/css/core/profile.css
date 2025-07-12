@@ -224,20 +224,33 @@
   gap: 7px;
   font-size: 1rem;
 }
+
+/* ==== CHANGE: DOWNLOAD MENU GROUP ==== */
 .download-menu-group {
-  padding: 8px 16px 0 16px;
   display: flex;
-  flex-direction: row; /* КНОПКИ В СТРОКУ ВСЕГДА */
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 8px 16px 0 16px;
+  gap: 0; /* убираем gap между label и кнопками */
 }
+
+/* ==== CHANGE: MENU LABEL AND OPTIONS ==== */
 .download-menu-label {
   min-width: 64px;
   font-size: 0.97rem;
   color: #3b82f6;
   font-weight: 500;
+  margin-bottom: 2px;
+  display: block;
 }
+
+.download-menu-options-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .menu-option {
   background: #fff;
   border: none;
@@ -323,7 +336,6 @@
     position: relative;
   }
 
-  /* НЕ МЕНЯЕМ position для .photo-actions! */
   .photo-actions {
     position: absolute;
     top: 8px;
@@ -346,11 +358,10 @@
 
   .download-menu-group {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 8px 16px 0 16px;
-    gap: 8px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 16px 0 6px;
+    gap: 0;
   }
 
   .download-menu-label {
@@ -358,7 +369,15 @@
     color: #3b82f6;
     font-weight: 500;
     min-width: 64px;
-    margin-bottom: 0;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .download-menu-options-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 8px;
   }
 
   .menu-option {
