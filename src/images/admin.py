@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-from .models import Image, ImageThumbnail, TemporaryLink
+from .models import Image, TemporaryLink
 
 
 @admin.register(Image)
@@ -44,49 +44,6 @@ class ImageAdmin(admin.ModelAdmin):
         return _("No image")
 
     image_preview.short_description = _("Preview")
-
-
-@admin.register(ImageThumbnail)
-class ImageThumbnailAdmin(admin.ModelAdmin):
-    list_display = [
-        "id_short",
-        "image_id_short",
-        "size",
-        "thumbnail_preview",
-        "created_at",
-    ]
-    list_filter = [
-        "size",
-        "created_at",
-    ]
-    readonly_fields = [
-        "id",
-        "width",
-        "height",
-        "file_size",
-        "created_at",
-    ]
-    ordering = ["-created_at"]
-
-    def id_short(self, obj):
-        return str(obj.id)[:8]
-
-    id_short.short_description = _("ID")
-
-    def image_id_short(self, obj):
-        return str(obj.image.id)[:8]
-
-    image_id_short.short_description = _("Image ID")
-
-    def thumbnail_preview(self, obj):
-        if obj.file:
-            return format_html(
-                '<img src="{}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" />',
-                obj.file.url,
-            )
-        return _("No thumbnail")
-
-    thumbnail_preview.short_description = _("Preview")
 
 
 @admin.register(TemporaryLink)

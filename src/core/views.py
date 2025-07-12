@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, View, ListView
 from django.contrib import messages
 from common.mixins import TitleMixin
@@ -10,6 +11,14 @@ from django.conf import settings
 from images.models import Image
 
 from accounts.models import Profile
+from rest_framework.exceptions import PermissionDenied
+
+
+ALLOWED_PLANS = {
+    "Basic": ["Basic"],
+    "Premium": ["Basic", "Premium"],
+    "Enterprise": ["Basic", "Premium", "Enterprise"],
+}
 
 
 class IndexView(TitleMixin, TemplateView):
@@ -76,17 +85,15 @@ class ProfileView(TitleMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-
         user_images = Image.objects.filter(user=user)
-
         total_photos = user_images.count()
 
-        profile = Profile.objects.get(user=user)
-
         try:
-            user_plan = user.tariff.plan.title
-        except AttributeError:
-            user_plan = "Basic"
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            profile = None
+
+        user_plan_info = get_user_plan_info(user)
 
         context.update(
             {
@@ -95,9 +102,73 @@ class ProfileView(TitleMixin, TemplateView):
                 "total_photos": total_photos,
                 "user_email": user.email,
                 "user_username": user.username,
+                "user_plan": user_plan_info["plan_title"],
                 "member_since": user.get_member_since,
-                "user_plan": user_plan,
+                "user_subscription_plan": user_plan_info["plan_title"],
+                "has_binary_link": user_plan_info["has_binary_link"],
+                "allowed_plans": ALLOWED_PLANS,
                 "profile": profile,
             }
         )
         return context
+
+
+class ImageDownloadPermissionCheckView(LoginRequiredMixin, View):
+
+    def get(self, request, image_id):
+        image = get_object_or_404(Image, id=image_id)
+
+        if image.user != request.user:
+            raise PermissionDenied("You don't have permission to access this image")
+
+        user_plan_info = get_user_plan_info(request.user)
+
+        available_options = get_available_download_options_from_plan(
+            user_plan_info["plan_object"]
+        )
+
+        return JsonResponse(
+            {
+                "image_id": str(image.id),
+                "user_plan": user_plan_info["plan_title"],
+                "has_binary_link": user_plan_info["has_binary_link"],
+                "available_options": available_options,
+                "allowed_plans": ALLOWED_PLANS,
+            }
+        )
+
+
+def get_user_plan_info(user):
+    try:
+        user_tariff = (
+            UserTariff.objects.select_related("plan")
+            .only("plan__title", "plan__has_binary_link")
+            .get(user=user)
+        )
+        return {
+            "plan_title": user_tariff.plan.title,
+            "has_binary_link": user_tariff.plan.has_binary_link,
+            "plan_object": user_tariff.plan,
+        }
+    except UserTariff.DoesNotExist:
+        return {"plan_title": "Basic", "has_binary_link": False, "plan_object": None}
+
+
+def get_available_download_options_from_plan(plan):
+    if not plan:
+        return [{"size": "200", "formats": ["png", "jpeg"], "type": "image"}]
+
+    options = []
+
+    if plan.has_thumbnail_200px:
+        options.append({"size": "200", "formats": ["png", "jpeg"], "type": "image"})
+
+    if plan.has_thumbnail_400px:
+        options.append({"size": "400", "formats": ["png", "jpeg"], "type": "image"})
+
+    if plan.has_original_photo:
+        options.append(
+            {"size": "original", "formats": ["png", "jpeg"], "type": "image"}
+        )
+
+    return options

@@ -84,46 +84,6 @@ class Image(models.Model):
             return f"{round(total_size_bytes / (1024 * 1024 * 1024), 1)} GB"
 
 
-class ImageThumbnail(models.Model):
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
-    image = models.ForeignKey(
-        Image,
-        on_delete=models.CASCADE,
-        related_name="thumbnails",
-        verbose_name=_("image"),
-    )
-
-    size = models.PositiveIntegerField(
-        _("size"),
-        help_text=_("Height of thumbnail in pixels (200, 400, etc.)"),
-    )
-
-    file = models.ImageField(
-        _("thumbnail file"),
-        upload_to="thumbnails/%Y/%m/%d/",
-    )
-
-    width = models.PositiveIntegerField(_("width"))
-    height = models.PositiveIntegerField(_("height"))
-    file_size = models.PositiveIntegerField(_("file size"))
-
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = _("Image Thumbnail")
-        verbose_name_plural = _("Image Thumbnails")
-        unique_together = [["image", "size"]]
-        ordering = ["size"]
-        indexes = [
-            models.Index(fields=["image", "size"]),
-        ]
-
-    def __str__(self):
-        return f"{str(self.image.id)[:8]} - {self.size}px"
-
-
 class TemporaryLink(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

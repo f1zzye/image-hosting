@@ -7,6 +7,91 @@
 <link rel="stylesheet" href="{% static 'css/main.css' %}">
 <link rel="stylesheet" href="{% static 'css/core/profile.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  .download-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    min-width: 200px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+  }
+
+  .download-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .download-menu-header {
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    color: #333;
+  }
+
+  .download-menu-group {
+    padding: 8px 16px;
+  }
+
+  .download-menu-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .download-menu-options-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .menu-option {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .menu-option:hover {
+    background: #f8f9fa;
+    border-color: #007bff;
+  }
+
+  .menu-option:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f8f9fa;
+  }
+
+  .upgrade-notice {
+    padding: 12px 16px;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    margin: 8px 16px;
+    font-size: 12px;
+    color: #856404;
+    text-align: center;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -63,9 +148,14 @@
       <div class="photos-grid" id="photosGrid">
         {% if user_images and user_images.count %}
           {% for image in user_images %}
-            <div class="user-photo">
+            <div class="user-photo" data-image-id="{{ image.id }}" data-subscription="Basic">
               <img src="{{ image.original_image.url }}" alt="Photo {{ forloop.counter }}">
               <div class="photo-actions">
+                {% if has_binary_link %}
+                  <button class="action-btn link-btn" title="Temporary-link">
+                    <i class="fa fa-link"></i>
+                  </button>
+                {% endif %}
                 <button class="action-btn download-btn" title="Download">
                   <i class="fa fa-download"></i>
                 </button>
@@ -77,28 +167,67 @@
                   <div class="download-menu-header">
                     <i class="fa fa-download"></i> Download
                   </div>
+
                   <!-- 200px -->
                   <div class="download-menu-group">
                     <span class="download-menu-label">200px:</span>
                     <div class="download-menu-options-row">
-                      <button class="menu-option"><i class="fa fa-file-image-o"></i> PNG</button>
-                      <button class="menu-option"><i class="fa fa-file-image-o"></i> JPEG</button>
+                      <button class="menu-option download-option"
+                              data-url="{{ image.original_image.url }}"
+                              data-size="200"
+                              data-format="png"
+                              data-type="image">
+                        <i class="fa fa-file-image-o"></i> PNG
+                      </button>
+                      <button class="menu-option download-option"
+                              data-url="{{ image.original_image.url }}"
+                              data-size="200"
+                              data-format="jpeg"
+                              data-type="image">
+                        <i class="fa fa-file-image-o"></i> JPEG
+                      </button>
                     </div>
                   </div>
+
                   <!-- 400px -->
                   <div class="download-menu-group">
                     <span class="download-menu-label">400px:</span>
                     <div class="download-menu-options-row">
-                      <button class="menu-option"><i class="fa fa-file-image-o"></i> PNG</button>
-                      <button class="menu-option"><i class="fa fa-file-image-o"></i> JPEG</button>
+                      <button class="menu-option download-option"
+                              data-url="{{ image.original_image.url }}"
+                              data-size="400"
+                              data-format="png"
+                              data-type="image">
+                        <i class="fa fa-file-image-o"></i> PNG
+                      </button>
+                      <button class="menu-option download-option"
+                              data-url="{{ image.original_image.url }}"
+                              data-size="400"
+                              data-format="jpeg"
+                              data-type="image">
+                        <i class="fa fa-file-image-o"></i> JPEG
+                      </button>
                     </div>
                   </div>
+
                   <!-- Original -->
                   <div class="download-menu-group">
                     <span class="download-menu-label">Original:</span>
                     <div class="download-menu-options-row">
-                      <button class="menu-option"><i class="fa fa-file-image-o"></i> PNG</button>
-                      <button class="menu-option"><i class="fa fa-file-image-o"></i> JPEG</button>
+                      <button class="menu-option download-option"
+                              data-url="{{ image.original_image.url }}"
+                              data-size="original"
+                              data-format="png"
+                              data-type="image">
+                        <i class="fa fa-file-image-o"></i> PNG
+                      </button>
+                      <button class="menu-option download-option"
+                              data-url="{{ image.original_image.url }}"
+                              data-size="original"
+                              data-format="jpeg"
+                              data-type="image">
+                        <i class="fa fa-file-image-o"></i> JPEG
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -121,30 +250,9 @@
 </main>
 
 <script>
-document.querySelectorAll('.user-photo').forEach(photo => {
-  const downloadBtn = photo.querySelector('.download-btn');
-  const downloadMenu = photo.querySelector('.download-menu');
-  if (downloadBtn && downloadMenu) {
-    downloadBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      // Закрыть другие меню
-      document.querySelectorAll('.download-menu').forEach(menu => {
-        if (menu !== downloadMenu) menu.classList.remove('show');
-      });
-      downloadMenu.classList.toggle('show');
-    });
-    // Закрыть меню при клике вне фото
-    document.addEventListener('click', (e) => {
-      if (!photo.contains(e.target)) downloadMenu.classList.remove('show');
-    });
-  }
-  // Delete button (реализуй свою логику удаления!)
-  const deleteBtn = photo.querySelector('.delete-btn');
-  if (deleteBtn) {
-    deleteBtn.addEventListener('click', () => {
-      alert('Удаление фото (реализуй свою логику)');
-    });
-  }
-});
+  window.userSubscriptionPlan = "{{ user_plan }}";
+  window.allowedPlans = {{ allowed_plans|safe }};
 </script>
+<script src="{% static 'js/working-with-images.js' %}"></script>
+
 {% endblock %}
