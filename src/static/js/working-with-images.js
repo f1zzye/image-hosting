@@ -11,6 +11,47 @@ document.addEventListener('DOMContentLoaded', function () {
         alert(message);
     }
 
+    // Функция для проверки и показа пустого состояния
+    function checkEmptyState() {
+        const photosGrid = document.getElementById('photosGrid');
+        const remainingPhotos = photosGrid.querySelectorAll('.user-photo');
+
+        console.log('Remaining photos count:', remainingPhotos.length);
+
+        if (remainingPhotos.length === 0) {
+            // Удаляем старое пустое состояние если оно есть
+            const existingEmptyState = photosGrid.querySelector('.empty-state');
+            if (existingEmptyState) {
+                existingEmptyState.remove();
+            }
+
+            // Создаем новое пустое состояние
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.id = 'emptyState';
+            emptyState.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                </svg>
+                <h3>No photos yet</h3>
+                <p>Upload your first photo to get started!</p>
+            `;
+
+            photosGrid.appendChild(emptyState);
+            console.log('Empty state shown');
+        }
+    }
+
+    // Функция для обновления счетчика фотографий
+    function updatePhotoCount() {
+        const photoCountElement = document.getElementById('photoCount');
+        const remainingPhotos = document.querySelectorAll('.user-photo').length;
+
+        if (photoCountElement) {
+            photoCountElement.textContent = remainingPhotos;
+        }
+    }
+
     // Функция для скачивания изображения
     function downloadImage(url, size, plan, title, format) {
         const img = new Image();
@@ -57,7 +98,23 @@ document.addEventListener('DOMContentLoaded', function () {
         return planHierarchy[userPlan] && planHierarchy[userPlan].includes(requiredSize);
     }
 
-    // Инициализация меню скачивания
+    // Функция получения CSRF-токена
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Инициализация меню скачивания и обработка событий для каждой фотки
     document.querySelectorAll('.user-photo').forEach(photo => {
         const downloadBtn = photo.querySelector('.download-btn');
         const downloadMenu = photo.querySelector('.download-menu');
@@ -164,15 +221,41 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Delete button
+        // Delete button - ИСПРАВЛЕННАЯ ВЕРСИЯ
         const deleteBtn = photo.querySelector('.delete-btn');
         if (deleteBtn) {
             deleteBtn.addEventListener('click', () => {
                 const imageId = photo.dataset.imageId;
-                if (confirm('Are you sure you want to delete this photo?')) {
-                    console.log('Deleting image:', imageId);
-                    // Реализуйте логику удаления
-                }
+                console.log('Deleting image:', imageId);
+                fetch('/images/delete-image/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: `image_id=${encodeURIComponent(imageId)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Удаляем фото
+                        photo.remove();
+
+                        // Обновляем счетчик фотографий
+                        updatePhotoCount();
+
+                        // Проверяем, нужно ли показать пустое состояние
+                        checkEmptyState();
+
+                        console.log('Image deleted successfully');
+                    } else {
+                        showError(data.error || 'Failed to delete image');
+                    }
+                })
+                .catch(error => {
+                    showError('Failed to delete image');
+                    console.error(error);
+                });
             });
         }
 
