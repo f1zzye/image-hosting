@@ -5,6 +5,7 @@ from core.views import (
     TariffPlansView,
     ProfileView,
     ImageDownloadPermissionCheckView,
+    contact_us
 )
 
 app_name = "core"
@@ -18,4 +19,5 @@ urlpatterns = [
         ImageDownloadPermissionCheckView.as_view(),
         name="download_permissions",
     ),
+    path("contacts/", contact_us, name="contacts"),
 ]

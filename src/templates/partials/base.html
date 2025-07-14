@@ -35,7 +35,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="{% url 'core:pricing' %}">Pricing</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="{% url 'core:contacts' %}">Contacts</a></li>
                 <li>
                     <div class="profile-dropdown">
                         <div class="profile-icon" onclick="toggleDropdown()">
@@ -121,11 +121,11 @@
                             </svg>
                             Pricing
                         </a></li>
-                        <li><a href="#about" onclick="toggleMobileMenu()">
+                        <li><a href="{% url 'core:contacts' %}" onclick="toggleMobileMenu()">
                             <svg viewBox="0 0 24 24">
                                 <path d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/>
                             </svg>
-                            About
+                            Contacts
                         </a></li>
                     </ul>
 

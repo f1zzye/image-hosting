@@ -153,6 +153,10 @@ class ImageDownloadPermissionCheckView(LoginRequiredMixin, View):
         )
 
 
+def contact_us(request):
+    return render(request, "core/contacts.html")
+
+
 def get_user_plan_info(user):
     try:
         user_tariff = (
@@ -187,3 +191,4 @@ def get_available_download_options_from_plan(plan):
         )
 
     return options
+
