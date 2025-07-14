@@ -14,4 +14,3 @@ class DeleteImageView(LoginRequiredMixin, View):
         image = get_object_or_404(Image, id=image_id, user=request.user)
         image.delete()
         return JsonResponse({"success": True})
-

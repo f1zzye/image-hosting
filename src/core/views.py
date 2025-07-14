@@ -7,6 +7,7 @@ from common.mixins import TitleMixin
 from images.forms import ImageUploadForm
 from billing.models import TariffPlan, UserTariff
 from django.conf import settings
+from datetime import datetime
 
 from images.models import Image
 
@@ -95,6 +96,19 @@ class ProfileView(TitleMixin, TemplateView):
 
         user_plan_info = get_user_plan_info(user)
 
+        try:
+            user_tariff = UserTariff.objects.get(user=user)
+            expires_at = user_tariff.expires_at
+            if expires_at is not None:
+                now = datetime.now(expires_at.tzinfo)
+                days_left = (expires_at - now).days
+                if days_left < 0:
+                    days_left = 0
+            else:
+                days_left = None
+        except UserTariff.DoesNotExist:
+            days_left = None
+
         context.update(
             {
                 "user_profile": user,
@@ -108,6 +122,7 @@ class ProfileView(TitleMixin, TemplateView):
                 "has_binary_link": user_plan_info["has_binary_link"],
                 "allowed_plans": ALLOWED_PLANS,
                 "profile": profile,
+                "days_left": days_left,
             }
         )
         return context

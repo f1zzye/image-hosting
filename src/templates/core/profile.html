@@ -132,7 +132,12 @@
           <span class="stat-label">Storage Used</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">{{ user_plan }}</span>
+          <span class="stat-number">
+            {{ user_plan }}
+            {% if user_plan|lower != "basic" and days_left is not None %}
+              ({{ days_left }} d)
+            {% endif %}
+          </span>
           <span class="stat-label">Plan</span>
         </div>
       </div>
