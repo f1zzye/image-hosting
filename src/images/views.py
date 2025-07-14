@@ -37,20 +37,22 @@ class CreateTemporaryLinkView(LoginRequiredMixin, View):
             )
 
             link_url = request.build_absolute_uri(
-                reverse('images:temporary_link_view', kwargs={'link_id': temp_link.id})
+                reverse("images:temporary_link_view", kwargs={"link_id": temp_link.id})
             )
 
-            return JsonResponse({
-                'success': True,
-                'link_url': link_url,
-                'expires_at': temp_link.expires_at.isoformat(),
-                'expires_in_seconds': temp_link.expires_in_seconds,
-            })
+            return JsonResponse(
+                {
+                    "success": True,
+                    "link_url": link_url,
+                    "expires_at": temp_link.expires_at.isoformat(),
+                    "expires_in_seconds": temp_link.expires_in_seconds,
+                }
+            )
 
         except json.JSONDecodeError:
-            return JsonResponse({'success': False, 'error': 'Invalid JSON'})
+            return JsonResponse({"success": False, "error": "Invalid JSON"})
         except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
+            return JsonResponse({"success": False, "error": str(e)})
 
 
 class TemporaryLinkView(View):
@@ -59,4 +61,4 @@ class TemporaryLinkView(View):
         if not temp_link.is_valid():
             raise Http404("Temporary link is expired or already used")
         image_file = temp_link.image.original_image
-        return HttpResponse(image_file, content_type='image/jpeg')
+        return HttpResponse(image_file, content_type="image/jpeg")
