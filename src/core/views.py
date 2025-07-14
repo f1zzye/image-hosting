@@ -14,6 +14,8 @@ from images.models import Image
 from accounts.models import Profile
 from rest_framework.exceptions import PermissionDenied
 
+from .models import ContactUs
+from bot.bot import send_contact_notification
 
 ALLOWED_PLANS = {
     "Basic": ["Basic"],
@@ -153,8 +155,26 @@ class ImageDownloadPermissionCheckView(LoginRequiredMixin, View):
         )
 
 
-def contact_us(request):
-    return render(request, "core/contacts.html")
+class ContactUsView(TemplateView):
+    template_name = "core/contacts.html"
+
+
+class AjaxContactView(View):
+    def get(self, request, *args, **kwargs):
+        full_name = request.GET["full_name"]
+        email = request.GET["email"]
+        message = request.GET["message"]
+
+        ContactUs.objects.create(
+            full_name=full_name,
+            email=email,
+            message=message,
+        )
+
+        send_contact_notification(full_name, email, message)
+
+        context = {"bool": True, "message": "Your message has been sent successfully."}
+        return JsonResponse({"context": context})
 
 
 def get_user_plan_info(user):
@@ -191,4 +211,3 @@ def get_available_download_options_from_plan(plan):
         )
 
     return options
-

@@ -5,7 +5,8 @@ from core.views import (
     TariffPlansView,
     ProfileView,
     ImageDownloadPermissionCheckView,
-    contact_us
+    ContactUsView,
+    AjaxContactView,
 )
 
 app_name = "core"
@@ -19,5 +20,6 @@ urlpatterns = [
         ImageDownloadPermissionCheckView.as_view(),
         name="download_permissions",
     ),
-    path("contacts/", contact_us, name="contacts"),
+    path("contacts/", ContactUsView.as_view(), name="contacts"),
+    path("ajax-contact-form/", AjaxContactView.as_view(), name="ajax-contact-form"),
 ]

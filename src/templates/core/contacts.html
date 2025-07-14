@@ -16,26 +16,26 @@
         <img src="{% static 'img/contactUs.png' %}" alt="Contact us">
     </div>
     <div class="contact-form-section">
-        <h2 class="contact-form-title">Your Question</h2>
-        <div class="contact-form-box">
-            <h4 class="text-success" id="message-response"></h4>
-            <form id="contact-form-ajax" method="POST" class="contact-form-inner">
-                {% csrf_token %}
-                <div class="form-control-wrap">
-                    <input type="text" class="form-input" placeholder="Your Name" name="full_name" id="full_name" required>
-                </div>
-                <div class="form-control-wrap">
-                    <input type="email" class="form-input" placeholder="Your Email" name="email" id="email" required>
-                </div>
-                <div class="form-control-wrap">
-                    <textarea class="form-textarea" placeholder="Your Message" name="message" id="message" required></textarea>
-                </div>
-                <div class="form-control-wrap">
-                    <input class="form-submit" type="submit" value="Send">
-                </div>
-                <div class="form-response" aria-hidden="true"></div>
-            </form>
-        </div>
+    <h2 class="contact-form-title">Your Question</h2>
+    <div class="contact-form-box">
+        <h4 class="text-success" id="message-response"></h4>
+        <form id="contact-form-ajax" method="POST" class="contact-form-inner">
+            {% csrf_token %}
+            <div class="form-control-wrap">
+                <input type="text" class="form-input" placeholder="Your Name" name="full_name" id="full_name" required>
+            </div>
+            <div class="form-control-wrap">
+                <input type="email" class="form-input" placeholder="Your Email" name="email" id="email" required>
+            </div>
+            <div class="form-control-wrap">
+                <textarea class="form-textarea" placeholder="Your Message" name="message" id="message" required></textarea>
+            </div>
+            <div class="form-control-wrap">
+                <input class="form-submit" type="submit" value="Send">
+            </div>
+            <div class="form-response" aria-hidden="true"></div>
+        </form>
     </div>
+</div>
 </div>
 {% endblock %}

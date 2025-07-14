@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'css/flash-messages.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -201,6 +202,7 @@
     {% endblock %}
 
     <script src="{% static 'js/navigation.js' %}"></script>
+    <script src="{% static 'js/function.js' %}"></script>
     <script src="{% static 'js/flash-messages.js' %}"></script>
     <script>
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
