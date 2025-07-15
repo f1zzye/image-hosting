@@ -2,6 +2,24 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from pathlib import Path
+from loguru import logger
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+LOGS_DIR = BASE_DIR / "LOGS"
+LOGS_DIR.mkdir(exist_ok=True)
+
+LOG_FILE = LOGS_DIR / "errors.log"
+
+logger.remove()
+logger.add(
+    str(LOG_FILE),
+    level="ERROR",
+    rotation="10 MB",
+    retention="10 days",
+)
+logger.add(sys.stderr, level="ERROR")
 
 
 def main():

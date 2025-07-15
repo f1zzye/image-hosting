@@ -5,8 +5,7 @@ from datetime import datetime
 from decouple import config
 
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
@@ -19,11 +18,7 @@ order_messages = {}
 async def send_telegram_message(message):
     try:
         bot = Bot(token=TOKEN)
-        await bot.send_message(
-            chat_id=CHAT_ID,
-            text=message,
-            parse_mode='HTML'
-        )
+        await bot.send_message(chat_id=CHAT_ID, text=message, parse_mode="HTML")
     except Exception as e:
         logger.error(f"Error sending message: {e}")
 
