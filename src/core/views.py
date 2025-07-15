@@ -211,3 +211,28 @@ def get_available_download_options_from_plan(plan):
         )
 
     return options
+
+
+class Handler403(TitleMixin, TemplateView):
+    template_name = "403.html"
+    title = "403 Forbidden"
+
+
+class Handler404(TitleMixin, TemplateView):
+    template_name = "404.html"
+    title = "404 Not Found"
+
+
+class Handler500(TitleMixin, TemplateView):
+    template_name = "500.html"
+    title = "500 Internal Server Error"
+
+
+class Handler502(TitleMixin, TemplateView):
+    template_name = "502.html"
+    title = "502 Bad Gateway"
+
+
+class Handler503(TitleMixin, TemplateView):
+    template_name = "503.html"
+    title = "503 Service Unavailable"

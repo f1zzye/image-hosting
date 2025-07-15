@@ -1,0 +1,25 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/errors.css' %}">
+{% endblock %}
+
+{% block body_class %}class="error-page"{% endblock %}
+
+
+{% block content %}
+<div class="error-404">
+    <div class="error-container">
+        <h1 class="error-code">403</h1>
+        <h2 class="error-title">Access Forbidden</h2>
+        <p class="error-message">
+            Sorry, you don't have permission to access this page.<br>
+            Try returning to the homepage or contact support if you believe this is an error.
+        </p>
+        <a href="{% url 'core:index' %}" class="error-button">Back to Homepage</a>
+    </div>
+</div>
+{% endblock %}
