@@ -1,24 +1,39 @@
 from config.settings.base import *  # noqa
 from celery.schedules import crontab
+from decouple import config
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = "django-secret-key"
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+# STATIC_URL = "/static/"
+#
+# STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa
+#
+# MEDIA_URL = "/media/"
+#
+# MEDIA_ROOT = BASE_DIR / "media"  # noqa
 
 STATIC_URL = "/static/"
 
-STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa
+STATICFILES_DIRS = [BASE_DIR / "static"]  # noqa
 
 MEDIA_URL = "/media/"
 
 MEDIA_ROOT = BASE_DIR / "media"  # noqa
 
+STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",  # noqa
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("POSTGRES_DB"),
+        "USER": config("POSTGRES_USER"),
+        "PASSWORD": config("POSTGRES_PASSWORD"),
+        "HOST": config("POSTGRES_HOST"),
+        "PORT": config("POSTGRES_PORT"),
     }
 }
 
