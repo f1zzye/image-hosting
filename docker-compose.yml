@@ -28,6 +28,20 @@ services:
     env_file:
       - ./src/.env
 
+  nginx:
+    image: nginx:1.19
+    container_name: hosting_nginx
+    volumes:
+      - static_volume:/usr/share/nginx/html/static:ro
+      - media_volume:/usr/share/nginx/html/media:ro
+      - ./nginx:/etc/nginx/conf.d:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+
+
 volumes:
   static_volume:
   media_volume:

@@ -1,30 +1,27 @@
+import os
+from pathlib import Path
 from config.settings.base import *  # noqa
 from celery.schedules import crontab
 from decouple import config
 
-DEBUG = True
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+DEBUG = False
 
 SECRET_KEY = "django-secret-key"
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
-# STATIC_URL = "/static/"
-#
-# STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa
-#
-# MEDIA_URL = "/media/"
-#
-# MEDIA_ROOT = BASE_DIR / "media"  # noqa
 
-STATIC_URL = "/static/"
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]  # noqa
+STATIC_ROOT = BASE_DIR / "static"
 
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = BASE_DIR / "media"  # noqa
+MEDIA_ROOT = BASE_DIR / "media"
 
-STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa
 
 DATABASES = {
     "default": {
