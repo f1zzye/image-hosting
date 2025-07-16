@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   backend:
     build: ./
@@ -40,6 +38,55 @@ services:
       - "443:443"
     depends_on:
       - backend
+
+  redis:
+    image: redis
+    env_file:
+      - ./src/.env
+    restart: on-failure
+    depends_on:
+      - postgres
+
+  celery:
+    build: ./
+    command: celery -A config.celery.app worker -l info
+    restart: always
+    volumes:
+      - ./src:/image-hosting/src
+    env_file:
+      - ./src/.env
+    working_dir: /image-hosting/src
+    depends_on:
+      - postgres
+      - redis
+
+  celerybeat:
+    build: ./
+    command: celery -A config.celery.app beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    restart: always
+    volumes:
+      - ./src:/image-hosting/src
+    env_file:
+      - ./src/.env
+    working_dir: /image-hosting/src
+    depends_on:
+      - postgres
+      - redis
+
+  flower:
+    build: ./
+    command: celery -A config.celery.app flower
+    restart: always
+    volumes:
+      - ./src:/image-hosting/src
+    env_file:
+      - ./src/.env
+    working_dir: /image-hosting/src
+    ports:
+      - 5556:5555
+    depends_on:
+      - celery
+      - redis
 
 
 volumes:

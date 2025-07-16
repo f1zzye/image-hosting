@@ -38,7 +38,6 @@ def process_expired_tariffs():
         return f"Error processing tariffs: {str(e)}"
 
 
-@app.task
 def send_subscription_expiring_email_task(user_tariff_id):
     try:
         user_tariff = UserTariff.objects.select_related("user", "plan").get(
