@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "django_celery_beat",
+    "debug_toolbar",
     # My apps
     "api",
     "core",
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -197,6 +199,18 @@ CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "UTC"
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://redis:6379/0",
+        "TIMEOUT": 30,
+        "OPTIONS": {
+            "db": "1",
+        },
+    }
+}
 
 
 LOGGING = {

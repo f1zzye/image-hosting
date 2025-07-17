@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, View, ListView
 from django.contrib import messages
-from common.mixins import TitleMixin
+from common.mixins import TitleMixin, CacheMixin
 from images.forms import ImageUploadForm
 from billing.models import TariffPlan, UserTariff
 from django.conf import settings
@@ -81,13 +81,23 @@ class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
         return context
 
 
-class ProfileView(TitleMixin, TemplateView):
+class ProfileView(TitleMixin, CacheMixin, TemplateView):
     template_name = "core/profile.html"
     title = "Profile - PhotoHub"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
+
+        cache_key = f"profile_context_{user.id}"
+        cache_time = 300
+
+        cached_data = self.set_get_cache(None, cache_key, cache_time)
+
+        if cached_data:
+            context.update(cached_data)
+            return context
+
         user_images = Image.objects.filter(user=user)
         total_photos = user_images.count()
 
@@ -111,22 +121,24 @@ class ProfileView(TitleMixin, TemplateView):
         except UserTariff.DoesNotExist:
             days_left = None
 
-        context.update(
-            {
-                "user_profile": user,
-                "user_images": user_images,
-                "total_photos": total_photos,
-                "user_email": user.email,
-                "user_username": user.username,
-                "user_plan": user_plan_info["plan_title"],
-                "member_since": user.get_member_since,
-                "user_subscription_plan": user_plan_info["plan_title"],
-                "has_binary_link": user_plan_info["has_binary_link"],
-                "allowed_plans": ALLOWED_PLANS,
-                "profile": profile,
-                "days_left": days_left,
-            }
-        )
+        cache_data = {
+            "user_profile": user,
+            "user_images": user_images,
+            "total_photos": total_photos,
+            "user_email": user.email,
+            "user_username": user.username,
+            "user_plan": user_plan_info["plan_title"],
+            "member_since": user.get_member_since,
+            "user_subscription_plan": user_plan_info["plan_title"],
+            "has_binary_link": user_plan_info["has_binary_link"],
+            "allowed_plans": ALLOWED_PLANS,
+            "profile": profile,
+            "days_left": days_left,
+        }
+
+        self.set_get_cache(cache_data, cache_key, cache_time)
+
+        context.update(cache_data)
         return context
 
 

@@ -20,6 +20,7 @@ from django.urls import path
 from django.urls.conf import include
 from django.conf import settings
 from django.conf.urls.static import static
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -30,7 +31,7 @@ urlpatterns = [
     path("oauth/", include("social_django.urls", namespace="social")),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("api/", include("api.urls", namespace="api")),
-]
+] + debug_toolbar_urls()
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

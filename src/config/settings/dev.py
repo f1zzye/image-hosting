@@ -10,6 +10,10 @@ SECRET_KEY = "django-secret-key"
 
 ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1"]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [BASE_DIR / "static"]  # noqa
