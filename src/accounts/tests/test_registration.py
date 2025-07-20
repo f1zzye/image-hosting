@@ -46,18 +46,21 @@ class TestRegistrationUser(CommonTest):
         response = self.client.post(self.path, invalid_data)
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertFalse(get_user_model().objects.filter(email=invalid_data["email"]).exists())
+        self.assertFalse(
+            get_user_model().objects.filter(email=invalid_data["email"]).exists()
+        )
         self.assertContains(response, "Enter a valid email address")
 
     def test_user_registration_duplicate_email(self):
         get_user_model().objects.create_user(
             email=self.valid_data["email"],
             username="existing_user",
-            password="password123"
+            password="password123",
         )
 
         response = self.client.post(self.path, self.valid_data)
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, self.template_name)
-        self.assertEqual(get_user_model().objects.filter(email=self.valid_data["email"]).count(), 1)
-
+        self.assertEqual(
+            get_user_model().objects.filter(email=self.valid_data["email"]).count(), 1
+        )

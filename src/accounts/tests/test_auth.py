@@ -8,19 +8,25 @@ from django.urls import reverse
 from accounts.tests.common_test import CommonTest
 
 
-def create_user(email="user@example.com", username="testuser", password="TestPassword123!"):
-    user = get_user_model().objects.create_user(email=email, username=username, password=password)
+def create_user(
+    email="user@example.com", username="testuser", password="TestPassword123!"
+):
+    user = get_user_model().objects.create_user(
+        email=email, username=username, password=password
+    )
     user.is_active = True
     user.save()
     return user
 
 
-def create_admin_user(email="admin@example.com", username="admin", password="TestPassword123!", is_superuser=True):
+def create_admin_user(
+    email="admin@example.com",
+    username="admin",
+    password="TestPassword123!",
+    is_superuser=True,
+):
     user = get_user_model().objects.create_superuser(
-        email=email,
-        username=username,
-        password=password,
-        is_superuser=is_superuser
+        email=email, username=username, password=password, is_superuser=is_superuser
     )
     user.is_active = True
     user.save()
