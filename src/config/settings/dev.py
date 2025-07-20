@@ -65,10 +65,10 @@ SITE_URL = "localhost:8000"
 CELERY_BEAT_SCHEDULE = {
     "process-expired-tariffs": {
         "task": "billing.tasks.process_expired_tariffs",
-        "schedule": crontab(minute="*/5"),  # Каждые 5 минут для тестирования
+        "schedule": crontab(minute="*/5"),
     },
     "check-expiring-subscriptions": {
         "task": "billing.tasks.check_expiring_subscriptions",
-        "schedule": crontab(minute="*/10"),  # Каждые 10 минут для тестирования
+        "schedule": crontab(minute="*/10"),
     },
 }
