@@ -39,13 +39,14 @@ class IndexView(TitleMixin, TemplateView):
                 request, "Please sign in or create an account to upload photos."
             )
             return redirect("accounts:sign-in")
-
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save(commit=False)
             image.user = request.user
             image.save()
-        return redirect("core:profile")
+            return redirect("core:profile")
+        context = self.get_context_data(form=form)
+        return render(request, self.template_name, context)
 
 
 class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
@@ -81,9 +82,10 @@ class TariffPlansView(TitleMixin, LoginRequiredMixin, TemplateView):
         return context
 
 
-class ProfileView(TitleMixin, CacheMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, TitleMixin, CacheMixin, TemplateView):
     template_name = "core/profile.html"
     title = "Profile - PhotoHub"
+    login_url = "accounts:sign-in"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
