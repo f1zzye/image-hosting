@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from images.models import Image, TemporaryLink
-from images.tests.common_test import CommonTest
+from accounts.tests.common_test import CommonTest
 
 User = get_user_model()
 
