@@ -92,7 +92,7 @@ class ProfileView(LoginRequiredMixin, TitleMixin, CacheMixin, TemplateView):
         user = self.request.user
 
         cache_key = f"profile_context_{user.id}"
-        cache_time = 300
+        cache_time = 30
 
         cached_data = self.set_get_cache(None, cache_key, cache_time)
 
