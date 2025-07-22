@@ -39,6 +39,12 @@ class ImagesViewSet(ReadOnlyModelViewSet):
     ordering_fields = ["created_at", "file_size"]
     ordering = ["-created_at"]
 
+    def get_queryset(self):
+        return Image.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     def retrieve(self, request, *args, **kwargs):
         try:
             return super().retrieve(request, *args, **kwargs)
