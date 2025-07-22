@@ -35,7 +35,7 @@ class StatusView(APIView):
 class ImagesViewSet(ReadOnlyModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImagesSerializer
-    permission_classes = [IsAuthenticated, IsAdminOrReadOnly]
+    permission_classes = [IsAuthenticated]  # IsAdminOrReadOnly
     ordering_fields = ["created_at", "file_size"]
     ordering = ["-created_at"]
 
