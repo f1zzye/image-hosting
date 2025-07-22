@@ -87,12 +87,12 @@
 
 5. **Create the initial Django superuser (admin account):**
    ```bash
-   docker-compose exec backend python manage.py createsuperuser
+   docker-compose exec backend python src/manage.py createsuperuser
    ```
 
 6. **(Optional) Lload fixture data for tariffs manually (if needed):**
    ```bash
-   docker-compose exec backend python manage.py loaddata <path_to_fixture_files>
+   docker-compose exec backend python src/manage.py loaddata <path_to_fixture_files>
    ```
 4. Access:
    - Frontend: http://localhost/
