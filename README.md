@@ -1,4 +1,4 @@
-<h1 align="center"> 🖼️ ImageHub 🖼️ </h1>
+<h1 align="center"> 🖼️ PhotoHub 🖼️ </h1>
 
 <!-- BADGES -->
 <p align="center">
@@ -9,9 +9,9 @@
 <!-- INFORMATION -->
 <h1 align="left"> 📘 About</h1>
 
-<img src="demonstration/homepage.png" alt="homepage" align="right" width="500px">
+<img src="demonstration/logo.png" alt="logo" align="right" width="500px">
 
-**ImageHub** is a feature-rich platform for uploading, managing, and retrieving images with tiered subscription plans (Basic, Premium, Enterprise, and custom plans). Built with **Django REST Framework** for the backend and a responsive frontend (HTML, CSS, JS with AJAX), it includes user registration with email verification, task queuing with Celery, caching with Redis, and production-ready deployment with Nginx and Flower for monitoring.
+**PhotoHub** is a feature-rich platform for uploading, managing, and retrieving images with tiered subscription plans (Basic, Premium, Enterprise, and custom plans). Built with **Django REST Framework** for the backend and a responsive frontend (HTML, CSS, JS with AJAX), it includes user registration with email verification, task queuing with Celery, caching with Redis, and production-ready deployment with Nginx and Flower for monitoring.
 
 - **Backend**: [**`Django REST Framework`**](https://www.django-rest-framework.org/) + [**`Django`**](https://www.djangoproject.com/)
 - **Frontend**: HTML, CSS, JavaScript with **AJAX** for seamless interaction
