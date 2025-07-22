@@ -27,9 +27,10 @@
 ## 🖼️ Gallery
 ![Homepage](demonstration/homepage.png)
 ![Upload Page](demonstration/upload.png)
-![User Dashboard](demonstration/dashboard.png)
-![Admin Panel](demonstration/admin_panel.png)
-![API Docs](demonstration/api_docs.png)
+![Pricing Page](demonstration/pricing.png)
+![User Profile](demonstration/profile.png)
+![Admin Panel](demonstration/admin.png)
+![API Docs](demonstration/.png)
 
 <!-- FEATURES -->
 ## 🚀 Features
