@@ -30,16 +30,16 @@
 ![Pricing Page](demonstration/pricing.png)
 ![User Profile](demonstration/profile.png)
 ![Admin Panel](demonstration/admin.png)
-![API Docs](demonstration/.png)
+![API Docs](demonstration/docs.png)
 
 <!-- FEATURES -->
 ## 🚀 Features
 - **User Registration**: Sign up with email verification; all users start with the **Basic** plan.
-- **Image Upload**: Upload PNG/JPG images via API (`/api/images/upload/`) or a user-friendly AJAX-based frontend.
+- **Image Upload**: Upload PNG/JPG images via API (`/api/images/`) or a user-friendly AJAX-based frontend.
 - **Tiered Plans**:
   - **Basic**: Access to 200px thumbnail.
   - **Premium**: Access to 200px and 400px thumbnails + original image.
-  - **Enterprise**: All Premium features + expiring binary image links (300–30,000 seconds).
+  - **Enterprise**: All Premium features + expiring binary image links.
   - **Custom Plans**: Admins can create plans with custom thumbnail sizes, original image access, and expiring links via Django Admin.
 - **Frontend**: Responsive interface (HTML, CSS, JS) with AJAX for uploading images, viewing user galleries, and generating expiring links.
 - **Performance**: Optimized with Redis caching and Celery for asynchronous image processing.
